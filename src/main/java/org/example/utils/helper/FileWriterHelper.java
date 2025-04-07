@@ -1,7 +1,6 @@
 package org.example.utils.helper;
 
 import org.example.Main;
-import org.example.repository.german.projectname.ProjectNameRepo;
 import org.example.utils.StringUtils;
 
 import java.io.*;
@@ -15,7 +14,7 @@ public class FileWriterHelper {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
-                String projectName = ProjectNameRepo.getProjectName();
+                String projectName = "";
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (line.trim().equals("--noUUID--") && isUUID)
@@ -50,7 +49,7 @@ public class FileWriterHelper {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
-                String projectName = ProjectNameRepo.getProjectName();
+                String projectName = "ProjectNameRepo.getProjectName()";
                 String line;
                 while ((line = reader.readLine()) != null) {
                     line = line.replace("?snake", module.replace("-", "_") + "_enums") ;
@@ -74,7 +73,7 @@ public class FileWriterHelper {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
-                String projectName = ProjectNameRepo.getProjectName();
+                String projectName = "ProjectNameRepo.getProjectName()";
                 String line;
 
                 StringBuilder toInsertBuilder = new StringBuilder();

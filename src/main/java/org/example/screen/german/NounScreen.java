@@ -1,39 +1,25 @@
 package org.example.screen.german;
 
 import org.example.MainFrame;
-import org.example.constants.filepath.german.noun.NounGermanFilePathConstants;
-import org.example.constants.screen.ScreenConstants;
-import org.example.constants.variables.VariableConstants;
-import org.example.enums.LanguageNameEnums;
-import org.example.repository.german.modulepath.ModulePathRepo;
-import org.example.repository.german.projectname.ProjectNameRepo;
-import org.example.utils.ActionPerformer;
+import org.example.constants.filepath.german.GermanFilePathConstants;
+import org.example.global.parentclass.MenuGlobalParent;
+import org.example.global.parentclass.german.GlobalGermanParent;
 import org.example.utils.helper.FileWriterHelper;
-import org.example.utils.helper.ProjectCopyHelper;
 import org.example.utils.uihelper.CustomPopUp;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class ProjectSetupScreen extends JPanel {
-
-    //variable for panel dimensions
-    private int width, height;
-
-    //variable for sizing buttons
-    private int buttonWidth, buttonHeight;
-
-    //instance of MainFrame class
-    private MainFrame frame;
+public class NounScreen extends MenuGlobalParent {
 
     private JLabel pathLabel;
 
-    private JButton backButton;
     private JButton pathSelectorButton;
     private JButton generateButton;
 
@@ -43,23 +29,10 @@ public class ProjectSetupScreen extends JPanel {
 
     private String noPath = "No Path Specified";
 
-    //variable for designing using html
-    private String startHtml, endHtml;
 
-    public ProjectSetupScreen(MainFrame frame, int width, int height){
+    public NounScreen(MainFrame frame, int width, int height){
+        super(frame, width, height);
 
-        buttonWidth = 200;
-        buttonHeight = 30;
-
-        this.frame = frame;
-        this.width = width;
-        this.height = height;
-
-        startHtml = "<html> <style> h2{font-family: \"Comic Sans MS\", \"Comic Sans\", cursive;}span{font-family: fantasy}</style> <center><h2>";
-        endHtml = "</h2> </center> </html>";
-
-        //this method contains all the panel properties
-        panelFeatures();
 
         //this method contains all the components like label and buttons declaration
         materials();
@@ -81,16 +54,8 @@ public class ProjectSetupScreen extends JPanel {
 
     }
 
-
-    void backButtonInit(){
-        backButton = new JButton(startHtml + "Back" + endHtml);
-        backButton.setBounds(VariableConstants.BACK_BUTTON_X, VariableConstants.BACK_BUTTON_Y, VariableConstants.BACK_BUTTON_WIDTH, VariableConstants.BACK_BUTTON_HEIGHT);
-        backButton.addActionListener(new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE));
-        add(backButton);
-    }
-
     void pathLabelInit(){
-        String path = ModulePathRepo.getModulePath(LanguageNameEnums.GOLANG);
+        String path = "";
 
         if (path == null){
             path = noPath;
@@ -109,7 +74,7 @@ public class ProjectSetupScreen extends JPanel {
         pathSelectorButton.setBounds(width / 2 - buttonWidth/2, pathLabel.getY() + pathLabel.getHeight(),
                 buttonWidth, buttonHeight);
         pathSelectorButton.addActionListener(e -> {
-            String selectedPath = ModulePathRepo.getModulePath(LanguageNameEnums.GOLANG);
+            String selectedPath = "";
             JFileChooser fileChooser = new JFileChooser(selectedPath == null? "" : selectedPath);
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Allow only directories to be selected
             fileChooser.setAcceptAllFileFilterUsed(false); // Disable the "All files" option
@@ -121,7 +86,7 @@ public class ProjectSetupScreen extends JPanel {
                 // Write lines to the file, creating it if it doesn't exist, and appending if it does
                 try {
                     String path = selectedFolder.getAbsolutePath();
-                    Files.write(Paths.get(NounGermanFilePathConstants.MODULE_PATH), Arrays.asList(path));
+                    Files.write(Paths.get(GermanFilePathConstants.MODULE_PATH), Arrays.asList(path));
                     pathLabel.setText(path);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -142,13 +107,13 @@ public class ProjectSetupScreen extends JPanel {
 
         generateButton.addActionListener(e -> {
             generateButton.setEnabled(false);
-            try {
-                ProjectCopyHelper.copyAndModifyFiles(NounGermanFilePathConstants.PROJECT_CODE_PATH, ModulePathRepo.getModulePath(LanguageNameEnums.GOLANG), ProjectNameRepo.getProjectName());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+//            try {
+//                ProjectCopyHelper.copyAndModifyFiles(GermanFilePathConstants.PROJECT_CODE_PATH, ModulePathRepo.getModulePath(LanguageNameEnums.GOLANG), ProjectNameRepo.getProjectName());
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
 
-            String packaging = FileWriterHelper.readAndWriteFromPackagesStorageFileToTextArea(NounGermanFilePathConstants.RESOURCE_PROJECT_PACKAGE_PATH);
+            String packaging = FileWriterHelper.readAndWriteFromPackagesStorageFileToTextArea(GermanFilePathConstants.RESOURCE_PROJECT_PACKAGE_PATH);
             packageGeneratedTextArea.setText(packaging);
             CustomPopUp.showPopUpMessage(frame, "Files created successfully");
             generateButton.setEnabled(true);
@@ -169,14 +134,8 @@ public class ProjectSetupScreen extends JPanel {
     }
 
     private boolean verifyGenerateButtonClickable(){
-        String nameFromRepo = ProjectNameRepo.getProjectName();
+        String nameFromRepo = "ProjectNameRepo.getProjectName()";
         return (nameFromRepo != null && !pathLabel.getText().equals(noPath));
-    }
-
-    void panelFeatures() {
-        setSize(new Dimension(width, height));
-        setLayout(null);
-        setOpaque(false);
     }
 }
 
