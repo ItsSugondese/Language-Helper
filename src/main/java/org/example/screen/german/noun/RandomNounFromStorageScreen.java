@@ -1,9 +1,9 @@
-package org.example.screen.german.verb;
+package org.example.screen.german.noun;
 
 import org.example.MainFrame;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.enums.WordType;
-import org.example.repository.german.verb.VerbRepo;
+import org.example.repository.german.noun.NounRepo;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
@@ -12,18 +12,18 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
 
-public class RandomVerbFromStorageScreen extends VerbParent {
+public class RandomNounFromStorageScreen extends NounParent {
 
     private JButton correctButton;
     private JButton incorrectButton;
 
-    private JTextField verbTextField;
-    private JLabel verbEnglishLabel;
+    private JTextField nounTextField;
+    private JLabel nounEnglishLabel;
     JCheckBox shouldShowEnglishCheckBox;
 
-    List<String> verbs;
+    List<String> nouns;
 
-    public RandomVerbFromStorageScreen(MainFrame frame, int width, int height) {
+    public RandomNounFromStorageScreen(MainFrame frame, int width, int height) {
         super(frame, width, height);
 
     }
@@ -31,7 +31,7 @@ public class RandomVerbFromStorageScreen extends VerbParent {
     @Override
     protected void initilizer() {
         super.initilizer();
-        verbs = VerbRepo.getAllVerbsFromFile();
+        nouns = NounRepo.getAllNounFromFile();
 
         scoreLabelInit();
 
@@ -46,8 +46,8 @@ public class RandomVerbFromStorageScreen extends VerbParent {
         //labels
 
 
-        verbTextFieldInit();
-        verbEnglishLabelInit();
+        nounTextFieldInit();
+        nounEnglishLabelInit();
         shouldShowEnglishCheckBoxInit();
         correctButtonInit();
         incorrectButtonInit();
@@ -56,42 +56,42 @@ public class RandomVerbFromStorageScreen extends VerbParent {
         whenClickButton(0);
     }
 
-    protected void verbTextFieldInit() {
-        verbTextField = new JTextField();
-        verbTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        verbTextField.setEnabled(false);
-        verbTextField.setDisabledTextColor(Color.BLACK);
-        verbTextField.setBackground(Color.WHITE);
-        verbTextField.setFont(verbTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
-        verbTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
+    protected void nounTextFieldInit() {
+        nounTextField = new JTextField();
+        nounTextField.setHorizontalAlignment(SwingConstants.CENTER);
+        nounTextField.setEnabled(false);
+        nounTextField.setDisabledTextColor(Color.BLACK);
+        nounTextField.setBackground(Color.WHITE);
+        nounTextField.setFont(nounTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
+        nounTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
 
-        add(verbTextField);
+        add(nounTextField);
     }
 
-    protected void verbEnglishLabelInit() {
-        verbEnglishLabel = new JLabel();
-        verbEnglishLabel.setBounds(width / 2 - labelWidth / 2, verbTextField.getY() - buttonHeight - 10,
+    protected void nounEnglishLabelInit() {
+        nounEnglishLabel = new JLabel();
+        nounEnglishLabel.setBounds(width / 2 - labelWidth / 2, nounTextField.getY() - buttonHeight - 10,
                 labelWidth, buttonHeight);
-        add(verbEnglishLabel);
+        add(nounEnglishLabel);
     }
 
     protected void shouldShowEnglishCheckBoxInit() {
         shouldShowEnglishCheckBox = new JCheckBox("Show Meaning", true);
-        shouldShowEnglishCheckBox.setBounds(verbEnglishLabel.getX() + verbEnglishLabel.getWidth() + 20, verbEnglishLabel.getY(), buttonWidth * 2, buttonHeight);
+        shouldShowEnglishCheckBox.setBounds(nounEnglishLabel.getX() + nounEnglishLabel.getWidth() + 20, nounEnglishLabel.getY(), buttonWidth * 2, buttonHeight);
         shouldShowEnglishCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 // perform another operation here
-                verbEnglishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
+                nounEnglishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
             }
         });
-        add(RandomVerbFromStorageScreen.this.shouldShowEnglishCheckBox);
+        add(RandomNounFromStorageScreen.this.shouldShowEnglishCheckBox);
     }
 
 
     protected void correctButtonInit() {
         correctButton = new JButton("Correct");
-        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, verbTextField.getY() + verbTextField.getHeight() + 10,
+        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, nounTextField.getY() + nounTextField.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         correctButton.addActionListener(e -> {
@@ -104,7 +104,7 @@ public class RandomVerbFromStorageScreen extends VerbParent {
 
     protected void incorrectButtonInit() {
         incorrectButton = new JButton("Incorrect");
-        incorrectButton.setBounds(width / 2 + buttonMargin, verbTextField.getY() + verbTextField.getHeight() + 10,
+        incorrectButton.setBounds(width / 2 + buttonMargin, nounTextField.getY() + nounTextField.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         incorrectButton.addActionListener(e -> {
@@ -117,7 +117,7 @@ public class RandomVerbFromStorageScreen extends VerbParent {
 
     protected String getWordFromCombineWord(String combineWord, WordType wordType) {
         String[] splitWord = combineWord.split("\\|");
-        if (wordType == WordType.VERB) {
+        if (wordType == WordType.NOUN) {
             return splitWord[0].trim();
         } else if (wordType == WordType.ENGLISH) {
             return splitWord[1].trim();
@@ -127,17 +127,22 @@ public class RandomVerbFromStorageScreen extends VerbParent {
 
     @Override
     protected void whenClickButton(int scoreNumber) {
-        if (!verbs.isEmpty()) {
-            int randomNum = generateRandomNumber(verbs.size());
-            verbTextField.setText(getWordFromCombineWord(verbs.get(randomNum), WordType.VERB));
-            verbEnglishLabel.setText(getWordFromCombineWord(verbs.get(randomNum), WordType.ENGLISH));
+        if (!nouns.isEmpty()) {
+            int randomNum = generateRandomNumber(nouns.size());
+            nounTextField.setText(getWordFromCombineWord(nouns.get(randomNum), WordType.NOUN));
+            nounEnglishLabel.setText(getWordFromCombineWord(nouns.get(randomNum), WordType.ENGLISH));
             scoreLabel.setText(String.format(scoreLabelTemplate, scoreNumber));
         }
     }
 
     @Override
+    public void setLabelWidth(int labelWidth) {
+        super.setLabelWidth(300);
+    }
+
+    @Override
     protected ActionPerformer backButtonPathSetter(String path) {
-        return new ActionPerformer(frame, GermanScreenConstants.VERB_PAGE);
+        return new ActionPerformer(frame, GermanScreenConstants.NOUN_PAGE);
     }
 }
 

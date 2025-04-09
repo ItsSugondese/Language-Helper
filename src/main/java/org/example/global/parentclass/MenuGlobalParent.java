@@ -9,7 +9,15 @@ public class MenuGlobalParent extends GlobalParent{
 
     public MenuGlobalParent(MainFrame frame, int width, int height) {
         super(frame, width, height);
-        buttonWidth = 200;
-        buttonHeight = 90;
+    }
+
+    @Override
+    public void setButtonWidth(int buttonWidth) {
+        super.setButtonWidth(200);
+    }
+
+    @Override
+    public void setButtonHeight(int buttonHeight) {
+        super.setButtonHeight(90);
     }
 }

@@ -1,9 +1,9 @@
 package org.example.screen.homepage;
 
 import org.example.MainFrame;
+import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
-import org.example.global.parentclass.german.GlobalGermanParent;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
@@ -18,7 +18,8 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         materials();
     }
 
-    void materials(){
+    @Override
+    protected void materials(){
         nounButtonInit();
         askLabelInit();
         verbButtonInit();
@@ -42,6 +43,11 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         verbButton.setBounds(nounButton.getX(), nounButton.getY() + nounButton.getHeight() + 20 , buttonWidth, buttonHeight);
         verbButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.VERB_PAGE));
         add(verbButton);
+    }
+
+    @Override
+    protected ActionPerformer backButtonPathSetter(String path) {
+        return new ActionPerformer(frame, ScreenConstants.HOME_PAGE);
     }
 }
 

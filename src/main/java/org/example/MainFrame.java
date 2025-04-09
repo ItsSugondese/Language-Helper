@@ -8,6 +8,8 @@ import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.screen.german.NounScreen;
 import org.example.screen.german.VerbScreen;
+import org.example.screen.german.noun.RandomNounFromStorageScreen;
+import org.example.screen.german.verb.VerbMeaningScreen;
 import org.example.screen.german.verb.RandomVerbFromStorageScreen;
 import org.example.screen.homepage.GermanHomepageScreen;
 import org.example.screen.homepage.HomePageScreen;
@@ -29,7 +31,9 @@ public class MainFrame extends JFrame {
     private NounScreen nounScreen;
 
     private RandomVerbFromStorageScreen randomVerbFromStorageScreen;
+    private VerbMeaningScreen verbMeaningScreen;
 
+    private RandomNounFromStorageScreen randomNounFromStorageScreen;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -60,6 +64,11 @@ public class MainFrame extends JFrame {
 
         randomVerbFromStorageScreen = new RandomVerbFromStorageScreen(this, width, height);
         mainPanel.add(randomVerbFromStorageScreen, GermanScreenConstants.RANDOM_VERB_PAGE);
+        verbMeaningScreen = new VerbMeaningScreen(this, width, height);
+        mainPanel.add(verbMeaningScreen, GermanScreenConstants.VERB_MEANING_PAGE);
+
+        randomNounFromStorageScreen = new RandomNounFromStorageScreen(this, width, height);
+        mainPanel.add(randomNounFromStorageScreen, GermanScreenConstants.RANDOM_NOUN_PAGE);
 
 
         //this method contains all the features of JFrame

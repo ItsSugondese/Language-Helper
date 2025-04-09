@@ -1,31 +1,29 @@
 package org.example.screen.german;
 
 import org.example.MainFrame;
+import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
-import org.example.global.parentclass.german.GlobalGermanParent;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
 
 public class VerbScreen extends MenuGlobalParent {
     private JButton randomFromStorageButton;
-    private JButton randomFromInternetButton;
+    private JButton verbMeaningButton;
 
 
     public VerbScreen(MainFrame frame, int width, int height){
         super(frame, width, height);
-
-        //this method contains all the components like label and buttons declaration
-        materials();
     }
 
-    void materials(){
+    @Override
+    protected void materials(){
 
 
         //for golang button declaration, properties and panel adding
         randomFromStorageInit();
-        randomFromInternetInit();
+        verbMeaningInit();
 
         //for asking label declaration, properties and panel adding
         askLabelInit();
@@ -41,17 +39,23 @@ public class VerbScreen extends MenuGlobalParent {
         add(randomFromStorageButton);
     }
 
-    void randomFromInternetInit(){
-        randomFromInternetButton = new JButton(startHtml + "Random From Internet" + endHtml);
-        randomFromInternetButton.setBounds(randomFromStorageButton.getX(), randomFromStorageButton.getY() + randomFromStorageButton.getHeight() + 10 , buttonWidth, buttonHeight);
-//        getButton.addActionListener(new ActionPerformer(frame, ScreenConstants.GET_API_GENERATE_GOLANG));
-        add(randomFromInternetButton);
+    void verbMeaningInit(){
+        verbMeaningButton = new JButton(startHtml + "Verb Meaning" + endHtml);
+        verbMeaningButton.setBounds(randomFromStorageButton.getX(), randomFromStorageButton.getY() + randomFromStorageButton.getHeight() + 10 , buttonWidth, buttonHeight);
+        verbMeaningButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.VERB_MEANING_PAGE));
+        verbMeaningButton.setEnabled(false);
+        add(verbMeaningButton);
     }
 
     void askLabelInit(){
         asking = new JLabel(startHtml + "<span> Select operations: </span>" + endHtml);
         asking.setBounds(randomFromStorageButton.getX(), randomFromStorageButton.getY()-30, 250, 20);
         add(asking);
+    }
+
+    @Override
+    protected ActionPerformer backButtonPathSetter(String path) {
+        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
     }
 }
 

@@ -16,12 +16,10 @@ public class HomePageScreen extends MenuGlobalParent {
     public HomePageScreen(MainFrame frame, int width, int height){
 
         super(frame, width, height);
-
-        //this method contains all the components like label and buttons declaration
-        materials();
     }
 
-    void materials(){
+    @Override
+    protected void materials(){
 
 
         //for golang button declaration, properties and panel adding
@@ -43,5 +41,10 @@ public class HomePageScreen extends MenuGlobalParent {
         germanButton.setBounds(width/2 - buttonWidth/2, height/2 - buttonHeight - 5 , buttonWidth, buttonHeight);
         germanButton.addActionListener(new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE));
         add(germanButton);
+    }
+
+    @Override
+    protected boolean haveBackButton() {
+        return Boolean.FALSE;
     }
 }

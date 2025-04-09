@@ -5,6 +5,9 @@ public class GermanScreenConstants {
 
     public static final String VERB_PAGE = "Verb Page";
     public static final String RANDOM_VERB_PAGE = "Random Verb Page";
+    public static final String VERB_MEANING_PAGE = "Verb Meaning Page";
+
+    public static final String RANDOM_NOUN_PAGE = "Random Noun Page";
 
 
 }
