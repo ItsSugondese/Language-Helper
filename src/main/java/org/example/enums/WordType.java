@@ -1,5 +1,5 @@
 package org.example.enums;
 
 public enum WordType {
-    NOUN,VERB,ENGLISH
+    NOUN,VERB,RANDOM,ENGLISH
 }

@@ -52,3 +52,11 @@ l
 <src/main/java/org/example/screen/german/noun/NounParent.java,d/4/d4303bbd59630c23edd40768db6cc5c45172c086
 }
 Msrc/main/java/org/example/screen/german/noun/RandomNounFromStorageScreen.java,4/6/463e172db0a099de7cede4c724271634030c7fac
+r
+Bsrc/main/java/org/example/screen/german/RandomGeneratorScreen.java,7/4/746a93b855cc5f999d6957cc851deff1fdb400a0
+h
+8src/main/java/org/example/screen/german/ScoreParent.java,1/6/16f23b491942fb2729d2c4758657638e771426ea
+i
+9src/main/java/org/example/utils/uihelper/CustomPopUp.java,e/3/e3bbaa2a838aba191e77056f22d93ac3e5383234
+n
+>src/main/java/org/example/utils/uihelper/CustomTextDialog.java,f/c/fca108aba6e22f3d503b126c6eb110db100576c8

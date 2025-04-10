@@ -33,18 +33,10 @@ public class RandomNounFromStorageScreen extends NounParent {
         super.initilizer();
         nouns = NounRepo.getAllNounFromFile();
 
-        scoreLabelInit();
-
     }
 
     @Override
     protected void materials() {
-        //for golang button declaration, properties and panel adding
-        backButtonInit();
-
-
-        //labels
-
 
         nounTextFieldInit();
         nounEnglishLabelInit();
@@ -113,16 +105,6 @@ public class RandomNounFromStorageScreen extends NounParent {
         });
 
         add(incorrectButton);
-    }
-
-    protected String getWordFromCombineWord(String combineWord, WordType wordType) {
-        String[] splitWord = combineWord.split("\\|");
-        if (wordType == WordType.NOUN) {
-            return splitWord[0].trim();
-        } else if (wordType == WordType.ENGLISH) {
-            return splitWord[1].trim();
-        }
-        return null;
     }
 
     @Override

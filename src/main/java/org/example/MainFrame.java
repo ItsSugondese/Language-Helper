@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.screen.german.NounScreen;
+import org.example.screen.german.RandomGeneratorScreen;
 import org.example.screen.german.VerbScreen;
 import org.example.screen.german.noun.RandomNounFromStorageScreen;
 import org.example.screen.german.verb.VerbMeaningScreen;
@@ -29,6 +30,7 @@ public class MainFrame extends JFrame {
     // verb
     private VerbScreen verbScreen;
     private NounScreen nounScreen;
+    private RandomGeneratorScreen randomGeneratorScreen;
 
     private RandomVerbFromStorageScreen randomVerbFromStorageScreen;
     private VerbMeaningScreen verbMeaningScreen;
@@ -61,6 +63,8 @@ public class MainFrame extends JFrame {
         mainPanel.add(nounScreen, GermanScreenConstants.NOUN_PAGE);
         verbScreen = new VerbScreen(this, width, height);
         mainPanel.add(verbScreen, GermanScreenConstants.VERB_PAGE);
+        randomGeneratorScreen = new RandomGeneratorScreen(this, width, height);
+        mainPanel.add(randomGeneratorScreen, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
 
         randomVerbFromStorageScreen = new RandomVerbFromStorageScreen(this, width, height);
         mainPanel.add(randomVerbFromStorageScreen, GermanScreenConstants.RANDOM_VERB_PAGE);
@@ -80,8 +84,8 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         // Initially show the startup panel
-        cardLayout.show(mainPanel, ScreenConstants.HOME_PAGE);
-//        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_VERB_PAGE);
+//        cardLayout.show(mainPanel, ScreenConstants.HOME_PAGE);
+        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
 
         //setting frame visibility to true
         setVisible(true);

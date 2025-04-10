@@ -1,23 +1,12 @@
 package org.example.screen.german;
 
 import org.example.MainFrame;
-import org.example.constants.filepath.german.GermanFilePathConstants;
 import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
-import org.example.global.parentclass.german.GlobalGermanParent;
 import org.example.utils.ActionPerformer;
-import org.example.utils.helper.FileWriterHelper;
-import org.example.utils.uihelper.CustomPopUp;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class NounScreen extends MenuGlobalParent {
     private JButton randomFromStorageButton;

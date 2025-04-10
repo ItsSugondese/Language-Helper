@@ -12,6 +12,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
 
     private JButton nounButton;
     private JButton verbButton;
+    private JButton randomGeneratorButton;
 
     public GermanHomepageScreen(MainFrame frame, int width, int height){
         super(frame, width, height);
@@ -23,6 +24,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         nounButtonInit();
         askLabelInit();
         verbButtonInit();
+        randomGeneratorButtonInit();
     }
 
     void askLabelInit(){
@@ -43,6 +45,13 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         verbButton.setBounds(nounButton.getX(), nounButton.getY() + nounButton.getHeight() + 20 , buttonWidth, buttonHeight);
         verbButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.VERB_PAGE));
         add(verbButton);
+    }
+
+    void randomGeneratorButtonInit(){
+        randomGeneratorButton = new JButton(startHtml + "Random Generator" + endHtml);
+        randomGeneratorButton.setBounds(verbButton.getX(), verbButton.getY() + verbButton.getHeight() + 20 , buttonWidth, buttonHeight);
+        randomGeneratorButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.RANDOM_GENERATOR_PAGE));
+        add(randomGeneratorButton);
     }
 
     @Override

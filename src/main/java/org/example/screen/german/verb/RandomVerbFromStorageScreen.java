@@ -33,18 +33,10 @@ public class RandomVerbFromStorageScreen extends VerbParent {
         super.initilizer();
         verbs = VerbRepo.getAllVerbsFromFile();
 
-        scoreLabelInit();
-
     }
 
     @Override
     protected void materials() {
-        //for golang button declaration, properties and panel adding
-        backButtonInit();
-
-
-        //labels
-
 
         verbTextFieldInit();
         verbEnglishLabelInit();
@@ -113,16 +105,6 @@ public class RandomVerbFromStorageScreen extends VerbParent {
         });
 
         add(incorrectButton);
-    }
-
-    protected String getWordFromCombineWord(String combineWord, WordType wordType) {
-        String[] splitWord = combineWord.split("\\|");
-        if (wordType == WordType.VERB) {
-            return splitWord[0].trim();
-        } else if (wordType == WordType.ENGLISH) {
-            return splitWord[1].trim();
-        }
-        return null;
     }
 
     @Override
