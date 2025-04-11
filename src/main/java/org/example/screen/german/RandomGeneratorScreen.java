@@ -1,32 +1,24 @@
 package org.example.screen.german;
 
 import org.example.MainFrame;
+import org.example.constants.filepath.german.GermanFilePathConstants;
 import org.example.constants.screen.ScreenConstants;
-import org.example.enums.WordType;
-import org.example.repository.german.noun.NounRepo;
+import org.example.global.parentclass.MaterialParent;
+import org.example.repository.german.generic.GenericRepo;
 import org.example.utils.ActionPerformer;
-import org.example.utils.uihelper.CustomTextDialog;
+import org.example.utils.uihelper.CustomTextAreaDialog;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class RandomGeneratorScreen extends ScoreParent {
+public class RandomGeneratorScreen extends MaterialParent {
 
     private JButton insertValuesButton;
+    private JButton fileFromPathButton;
 
-    private JButton correctButton;
-    private JButton incorrectButton;
 
-    private JTextField randomValueTextField;
-    private JLabel nounEnglishLabel;
-    JCheckBox shouldShowEnglishCheckBox;
-
-    List<String> insertedValues;
 
     public RandomGeneratorScreen(MainFrame frame, int width, int height) {
         super(frame, width, height);
@@ -36,40 +28,29 @@ public class RandomGeneratorScreen extends ScoreParent {
     @Override
     protected void initilizer() {
         super.initilizer();
-        insertedValues =  new ArrayList<>();
 
 
     }
 
     @Override
     protected void materials() {
-
+        super.materials();
         insertValuesButtonInit();
-
-        randomValueTextFieldInit();
-        randomValueEnglishLabelInit();
-        shouldShowEnglishCheckBoxInit();
-        correctButtonInit();
-        incorrectButtonInit();
-
-
-        whenClickButton(0);
-
-        whenValuesInInsertValueList();
+        fileFromPathButtonInit();
     }
 
     protected void insertValuesButtonInit(){
         insertValuesButton = new JButton("Insert Values");
-        insertValuesButton.setBounds(width / 2 - buttonWidth - buttonMargin, scoreLabel.getY() + scoreLabel.getHeight() + 10,
+        insertValuesButton.setBounds(width / 2 - buttonWidth * 2 - buttonMargin, scoreLabel.getY() + scoreLabel.getHeight() + 10,
                 buttonWidth * 2, buttonHeight);
 
         insertValuesButton.addActionListener(e -> {
-            String valuesFromDialog = CustomTextDialog.showCustomDialog(frame, "Insert Text to randomize", mergeStringFromList(insertedValues));
+            String valuesFromDialog = CustomTextAreaDialog.showCustomDialog(frame, "Insert Text to randomize", mergeStringFromList(genericValuesList));
             if(valuesFromDialog != null && !valuesFromDialog.isBlank()) {
-                insertedValues = new ArrayList<>(Arrays.asList(valuesFromDialog.split("\n")));
+                genericValuesList = new ArrayList<>(Arrays.asList(valuesFromDialog.split("\n")));
                 whenClickButton(0);
             } else {
-                insertedValues.clear();
+                genericValuesList.clear();
             }
 
             whenValuesInInsertValueList();
@@ -78,100 +59,36 @@ public class RandomGeneratorScreen extends ScoreParent {
         add(insertValuesButton);
     }
 
-    protected void randomValueTextFieldInit() {
-        randomValueTextField = new JTextField();
-        randomValueTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        randomValueTextField.setEnabled(false);
-        randomValueTextField.setDisabledTextColor(Color.BLACK);
-        randomValueTextField.setBackground(Color.WHITE);
-        randomValueTextField.setFont(randomValueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
-        randomValueTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
+    protected void fileFromPathButtonInit(){
+        fileFromPathButton = new JButton("From Path");
+        fileFromPathButton.setBounds(width / 2 + buttonMargin, insertValuesButton.getY(),
+                buttonWidth * 2, buttonHeight);
 
-        add(randomValueTextField);
-    }
+        fileFromPathButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(GermanFilePathConstants.SAMPLE_FOLDER_PATH);
+            fileChooser.setAcceptAllFileFilterUsed(false); // Disable the "All files" option
 
-    protected void randomValueEnglishLabelInit() {
-        nounEnglishLabel = new JLabel();
-        nounEnglishLabel.setBounds(width / 2 - labelWidth / 2, randomValueTextField.getY() - buttonHeight - 10,
-                labelWidth, buttonHeight);
-        add(nounEnglishLabel);
-    }
+            int returnValue = fileChooser.showOpenDialog(null);
 
-    protected void shouldShowEnglishCheckBoxInit() {
-        shouldShowEnglishCheckBox = new JCheckBox("Show Meaning", true);
-        shouldShowEnglishCheckBox.setBounds(nounEnglishLabel.getX() + nounEnglishLabel.getWidth() + 20, nounEnglishLabel.getY(), buttonWidth * 2, buttonHeight);
-        shouldShowEnglishCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                // perform another operation here
-                nounEnglishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFolder = fileChooser.getSelectedFile();
+                genericValuesList = GenericRepo.getAllFromFileAsList(selectedFolder.getPath());
+                whenValuesInInsertValueList();
             }
         });
-        add(shouldShowEnglishCheckBox);
+
+        add(fileFromPathButton);
     }
 
 
-    protected void correctButtonInit() {
-        correctButton = new JButton("Correct");
-        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, randomValueTextField.getY() + randomValueTextField.getHeight() + 10,
-                buttonWidth, buttonHeight);
-
-        correctButton.addActionListener(e -> {
-            score++;
-            whenClickButton(score);
-        });
-
-        add(correctButton);
-    }
-
-    protected void incorrectButtonInit() {
-        incorrectButton = new JButton("Incorrect");
-        incorrectButton.setBounds(width / 2 + buttonMargin, randomValueTextField.getY() + randomValueTextField.getHeight() + 10,
-                buttonWidth, buttonHeight);
-
-        incorrectButton.addActionListener(e -> {
-            score = 0;
-            whenClickButton(score);
-        });
-
-        add(incorrectButton);
-    }
-
-
-
-    protected void whenValuesInInsertValueList(){
-        if (!insertedValues.isEmpty()){
-            correctButton.setEnabled(true);
-            incorrectButton.setEnabled(true);
-        } else {
-            correctButton.setEnabled(false);
-            incorrectButton.setEnabled(false);
-            setFormattedScoreLabel(0);
-        }
-    }
-
-    protected String mergeStringFromList(List<String> listOfString){
-        if(!listOfString.isEmpty()){
-            return String.join("\n", listOfString);
-        }
-        return "";
-    }
-
-    @Override
-    protected void whenClickButton(int scoreNumber) {
-        if (!insertedValues.isEmpty()) {
-            int randomNum = generateRandomNumber(insertedValues.size());
-            randomValueTextField.setText(getWordFromCombineWord(insertedValues.get(randomNum), WordType.RANDOM));
-            nounEnglishLabel.setText(getWordFromCombineWord(insertedValues.get(randomNum), WordType.ENGLISH));
-            setFormattedScoreLabel(scoreNumber);
-        }
-    }
 
 
 
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
-        return new ActionPerformer(frame, ScreenConstants.HOME_PAGE);
+        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
     }
+
+
 }
 

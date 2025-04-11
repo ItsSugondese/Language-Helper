@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CustomTextDialog extends JDialog {
+public class CustomTextAreaDialog extends JDialog {
     private JTextArea textArea;
     private boolean confirmed = false;
 
     // The dialog is created only once and reused for every pop-up
-    private static CustomTextDialog instance;
+    private static CustomTextAreaDialog instance;
 
     // Private constructor to prevent direct instantiation
-    private CustomTextDialog(Frame owner, String title, String initialText) {
+    private CustomTextAreaDialog(Frame owner, String title, String initialText) {
         super(owner, title, true);
 
         // Set up the dialog layout
@@ -41,11 +41,9 @@ public class CustomTextDialog extends JDialog {
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                confirmed = false;
-                setVisible(false);  // Close the dialog
-            }
+        cancelButton.addActionListener(e -> {
+            confirmed = false;
+            setVisible(false);  // Close the dialog
         });
 
         buttonPanel.add(okButton);
@@ -70,9 +68,9 @@ public class CustomTextDialog extends JDialog {
     }
 
     // Static method to get the singleton instance of the dialog
-    private static CustomTextDialog getInstance(Frame owner, String title, String initialText) {
+    private static CustomTextAreaDialog getInstance(Frame owner, String title, String initialText) {
         if (instance == null) {
-            instance = new CustomTextDialog(owner, title, initialText);
+            instance = new CustomTextAreaDialog(owner, title, initialText);
         } else {
             // Reset the text area to avoid showing stale data
             instance.textArea.setText(initialText);
@@ -82,7 +80,7 @@ public class CustomTextDialog extends JDialog {
 
     // Static method to call the dialog from anywhere
     public static String showCustomDialog(Frame owner, String title, String initialText) {
-        CustomTextDialog dialog = getInstance(owner, title, initialText);
+        CustomTextAreaDialog dialog = getInstance(owner, title, initialText);
         dialog.setVisible(true);
 
         if (dialog.isConfirmed()) {

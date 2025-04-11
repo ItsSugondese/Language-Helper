@@ -3,12 +3,12 @@ package org.example.global.parentclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.MainFrame;
-import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.constants.variables.VariableConstants;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -53,6 +53,7 @@ public class GlobalParent extends JPanel {
 
         initilizer();
         materials();
+        conclusion();
 
     }
 
@@ -70,6 +71,9 @@ public class GlobalParent extends JPanel {
     protected void materials() {
     }
 
+    protected void conclusion() {
+    }
+
     protected ActionPerformer backButtonPathSetter(String path) {
         return null;
     }
@@ -82,6 +86,16 @@ public class GlobalParent extends JPanel {
         return random.nextInt(till);
     }
 
+    protected int getTillNumberValue(){
+        return 0;
+    }
+
+    protected String mergeStringFromList(List<String> listOfString){
+        if(!listOfString.isEmpty()){
+            return String.join("\n", listOfString);
+        }
+        return "";
+    }
 
     void panelFeatures() {
         setSize(new Dimension(width, height));

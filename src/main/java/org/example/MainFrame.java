@@ -84,8 +84,8 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         // Initially show the startup panel
-//        cardLayout.show(mainPanel, ScreenConstants.HOME_PAGE);
-        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
+        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
+//        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
 
         //setting frame visibility to true
         setVisible(true);
