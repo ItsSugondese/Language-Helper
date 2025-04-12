@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -86,16 +87,11 @@ public class GlobalParent extends JPanel {
         return random.nextInt(till);
     }
 
-    protected int getTillNumberValue(){
+    protected int getTillNumberValue() {
         return 0;
     }
 
-    protected String mergeStringFromList(List<String> listOfString){
-        if(!listOfString.isEmpty()){
-            return String.join("\n", listOfString);
-        }
-        return "";
-    }
+
 
     void panelFeatures() {
         setSize(new Dimension(width, height));

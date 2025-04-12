@@ -57,11 +57,9 @@ public class CustomTextFieldDialog extends JDialog {
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                confirmed = false;
-                setVisible(false);  // Close the dialog
-            }
+        cancelButton.addActionListener(e -> {
+            confirmed = false;
+            setVisible(false);  // Close the dialog
         });
 
         buttonPanel.add(okButton);

@@ -3,6 +3,7 @@ package org.example.global.parentclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.MainFrame;
+import org.example.constants.DelimiterConstants;
 import org.example.enums.WordType;
 import org.example.utils.uihelper.CustomPopUp;
 import org.example.utils.uihelper.CustomTextAreaDialog;
@@ -24,6 +25,9 @@ public class MaterialParent extends GlobalParent {
 
     protected JLabel scoreLabel;
     protected String scoreLabelTemplate;
+
+    protected JLabel totalWordLabel;
+    protected String totalWordLabelTemplate;
     protected int score = 0;
     protected int buttonMargin;
     protected int labelWidth;
@@ -56,6 +60,7 @@ public class MaterialParent extends GlobalParent {
         random = new Random();
         buttonMargin = 10;
         scoreLabelTemplate = "<html><b>Score: %d</b></html>";
+        totalWordLabelTemplate = "<html><b>Total Words: %d</b></html>";
         genericValuesList =  new ArrayList<>();
 
     }
@@ -64,6 +69,7 @@ public class MaterialParent extends GlobalParent {
     protected void materials() {
         super.materials();
         scoreLabelInit();
+        totalWordLabelInit();
         setTargetButtonInit();
         randomValueTextFieldInit();
         englishLabelInit();
@@ -76,11 +82,13 @@ public class MaterialParent extends GlobalParent {
     @Override
     protected void conclusion() {
         super.conclusion();
-        whenValuesInInsertValueList();
+        if(!genericValuesList.isEmpty()){
+            setGenericValueOnField();
+        }
     }
 
     protected String getWordFromCombineWord(String combineWord, WordType wordType) {
-        String[] splitWord = combineWord.split("\\|");
+        String[] splitWord = combineWord.split(DelimiterConstants.regexPipSeperator);
         if (wordType == WordType.NOUN || wordType == WordType.VERB || wordType == WordType.RANDOM) {
             return splitWord[0].trim();
         } else if (wordType == WordType.ENGLISH) {
@@ -154,10 +162,19 @@ public class MaterialParent extends GlobalParent {
     }
 
     protected void scoreLabelInit() {
-        scoreLabel = new JLabel(String.format(scoreLabelTemplate, score));
+        scoreLabel = new JLabel();
+        setFormattedScoreLabel(score);
         scoreLabel.setBounds(width / 2 - labelWidth / 2, backButton.getY() + backButton.getHeight() + 10,
                 labelWidth, buttonHeight);
         add(scoreLabel);
+    }
+
+    protected void totalWordLabelInit() {
+        totalWordLabel = new JLabel();
+        setFormattedTotalWordLabel();
+        totalWordLabel.setBounds(backButton.getX(), backButton.getY() + backButton.getHeight() + 10,
+                labelWidth, buttonHeight);
+        add(totalWordLabel);
     }
 
     protected void setTargetButtonInit() {
@@ -182,18 +199,22 @@ public class MaterialParent extends GlobalParent {
                 buttonWidth *2, buttonHeight);
         shouldRandomizeCheckBox.addItemListener(e -> {
             // perform another operation here
-            onShouldRandomizeChanged();
+            onShouldRandomizeChanged(true);
         });
         add(shouldRandomizeCheckBox);
     }
 
     protected void whenClickButton(int scoreNumber) {
         if (!genericValuesList.isEmpty()) {
-            onShouldRandomizeChanged();
-            randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
-            englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+            onShouldRandomizeChanged(false);
+            setGenericValueOnField();
             setFormattedScoreLabel(scoreNumber);
         }
+    }
+
+    protected void setGenericValueOnField(){
+        randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
+        englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
     }
 
     protected void setFormattedScoreLabel(int scoreNumber) {
@@ -201,21 +222,14 @@ public class MaterialParent extends GlobalParent {
         scoreLabel.setText(String.format(scoreLabelTemplate, scoreNumber));
     }
 
-    protected void whenValuesInInsertValueList(){
-        if (!genericValuesList.isEmpty()){
-            correctButton.setEnabled(true);
-            incorrectButton.setEnabled(true);
-        } else {
-            correctButton.setEnabled(false);
-            incorrectButton.setEnabled(false);
-        }
-        whenClickButton(0);
+    protected void setFormattedTotalWordLabel() {
+        totalWordLabel.setText(String.format(totalWordLabelTemplate, getTillNumberValue()));
     }
 
-    protected void onShouldRandomizeChanged() {
+    protected void onShouldRandomizeChanged(boolean isToggledRandomize) {
         if(!genericValuesList.isEmpty()) {
 
-            randomNum = shouldRandomizeCheckBox.isSelected() ? generateRandomNumber(getTillNumberValue()) : randomNum + 1;
+            randomNum = shouldRandomizeCheckBox.isSelected() ? generateRandomNumber(getTillNumberValue()) : (!isToggledRandomize? randomNum + 1 : randomNum);
 
             if (randomNum > getTillNumberValue() - 1) {
                 randomNum = 0;

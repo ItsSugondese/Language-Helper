@@ -1,8 +1,15 @@
 package org.example.utils.uihelper;
 
+import org.example.constants.DelimiterConstants;
+import org.example.utils.StringUtils;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class CustomTextAreaDialog extends JDialog {
     private JTextArea textArea;
@@ -32,13 +39,19 @@ public class CustomTextAreaDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        JButton okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                confirmed = true;
-                setVisible(false);  // Close the dialog
-            }
+        JButton filterButton = new JButton("Filter");
+        filterButton.addActionListener(e -> {
+            Map<String, String> mapValues = StringUtils.mapOfStringFromString(textArea.getText(), DelimiterConstants.regexPipSeperator, DelimiterConstants.lineBreak);
+            textArea.setText(StringUtils.stringFromMapOfString(mapValues, DelimiterConstants.lineBreak, DelimiterConstants.pipeSeperator));
+
         });
+
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(e -> {
+            confirmed = true;
+            setVisible(false);  // Close the dialog
+        });
+
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
@@ -47,6 +60,7 @@ public class CustomTextAreaDialog extends JDialog {
         });
 
         buttonPanel.add(okButton);
+        buttonPanel.add(filterButton);
         buttonPanel.add(cancelButton);
 
         // Add the buttons to the dialog
