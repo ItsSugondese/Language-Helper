@@ -9,7 +9,7 @@ import org.example.global.parentclass.MaterialParent;
 @Setter
 public class VerbParent extends MaterialParent {
 
-    public VerbParent(MainFrame frame, int width, int height) {
+    public VerbParent(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 
@@ -19,7 +19,7 @@ public class VerbParent extends MaterialParent {
     }
 
     @Override
-    protected void materials() {
+    protected void materials() throws Exception {
         super.materials();
     }
 }

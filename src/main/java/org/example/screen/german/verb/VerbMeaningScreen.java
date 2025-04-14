@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VerbMeaningScreen extends VerbParent {
 
-    public VerbMeaningScreen(MainFrame frame, int width, int height) {
+    public VerbMeaningScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 //    private JButton generateButton;

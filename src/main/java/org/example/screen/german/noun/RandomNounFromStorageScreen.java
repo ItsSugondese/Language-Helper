@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RandomNounFromStorageScreen extends NounParent {
 
-    public RandomNounFromStorageScreen(MainFrame frame, int width, int height) {
+    public RandomNounFromStorageScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
 
     }
@@ -29,7 +29,7 @@ public class RandomNounFromStorageScreen extends NounParent {
     }
 
     @Override
-    protected void materials() {
+    protected void materials() throws Exception {
         super.materials();
     }
 

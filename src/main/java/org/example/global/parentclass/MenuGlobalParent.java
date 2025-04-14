@@ -7,7 +7,7 @@ import javax.swing.*;
 public class MenuGlobalParent extends GlobalParent{
     protected JLabel asking;
 
-    public MenuGlobalParent(MainFrame frame, int width, int height) {
+    public MenuGlobalParent(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 

@@ -1,14 +1,11 @@
 package org.example.enums;
 
-import lombok.Getter;
+import org.example.utils.misc.StringUtils;
 
-@Getter
 public enum LanguageNameEnums {
-    GOLANG(""), ANGULAR("/home/lazybot/.nvm/versions/node/v20.14.0/bin");
+    GERMAN, ENGLISH;
 
-    private final String envPath;
-
-    LanguageNameEnums(String envPath) {
-        this.envPath = envPath;
+    public static LanguageNameEnums getFromTranslateEnums(String val){
+        return LanguageNameEnums.valueOf(TranslateEnums.valueOf(StringUtils.toUpperSeparator(val, "_")).getFrom());
     }
 }

@@ -12,7 +12,7 @@ public class NounScreen extends MenuGlobalParent {
     private JButton randomFromStorageButton;
 
 
-    public NounScreen(MainFrame frame, int width, int height){
+    public NounScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 

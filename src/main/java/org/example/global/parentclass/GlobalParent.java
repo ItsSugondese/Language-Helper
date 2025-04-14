@@ -3,11 +3,15 @@ package org.example.global.parentclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.MainFrame;
+import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.variables.VariableConstants;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -34,7 +38,7 @@ public class GlobalParent extends JPanel {
     protected Random random;
 
 
-    public GlobalParent(MainFrame frame, int width, int height) {
+    public GlobalParent(MainFrame frame, int width, int height) throws Exception {
         setButtonWidth(120);
         setButtonHeight(30);
 
@@ -69,7 +73,7 @@ public class GlobalParent extends JPanel {
     protected void initilizer() {
     }
 
-    protected void materials() {
+    protected void materials() throws Exception {
     }
 
     protected void conclusion() {
@@ -89,6 +93,10 @@ public class GlobalParent extends JPanel {
 
     protected int getTillNumberValue() {
         return 0;
+    }
+
+    protected URI getSvgUri(String svg) throws URISyntaxException {
+        return new URI("file:///" + FilePathConstants.ASSETS_FOLDER_ABSOLUTE_PATH + File.separator + svg + ".svg");
     }
 
 

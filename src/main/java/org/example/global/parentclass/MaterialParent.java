@@ -2,9 +2,19 @@ package org.example.global.parentclass;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.batik.swing.JSVGCanvas;
+import org.example.ApiGateway;
 import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
+import org.example.constants.filepath.FilePathConstants;
+import org.example.constants.properties.PropertiesGetterConstants;
+import org.example.enums.LanguageNameEnums;
+import org.example.enums.TranslateEnums;
 import org.example.enums.WordType;
+import org.example.utils.files.FilePathDecider;
+import org.example.utils.files.FileSaveUtils;
+import org.example.utils.misc.AudioUtils;
+import org.example.utils.misc.StringUtils;
 import org.example.utils.uihelper.CustomPopUp;
 import org.example.utils.uihelper.CustomTextFieldDialog;
 
@@ -12,7 +22,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -35,7 +51,7 @@ public class MaterialParent extends GlobalParent {
     protected JButton correctButton;
     protected JButton incorrectButton;
 
-    protected JTextField randomValueTextField;
+    protected JTextField valueTextField;
     protected JLabel englishLabel;
     protected JCheckBox shouldShowEnglishCheckBox;
 
@@ -47,9 +63,10 @@ public class MaterialParent extends GlobalParent {
     protected int target = 0;
 
     protected List<String> genericValuesList;
+    protected JSVGCanvas valueAudioCanvas;
+//    protected Screen
 
-
-    public MaterialParent(MainFrame frame, int width, int height) {
+    public MaterialParent(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 
@@ -58,6 +75,7 @@ public class MaterialParent extends GlobalParent {
     protected void initilizer() {
         setLabelWidth(200);
         random = new Random();
+
         buttonMargin = 10;
         scoreLabelTemplate = "<html><b>Score: %d</b></html>";
         totalWordLabelTemplate = "<html><b>Total Words: %d</b></html>";
@@ -66,13 +84,14 @@ public class MaterialParent extends GlobalParent {
     }
 
     @Override
-    protected void materials() {
+    protected void materials() throws Exception {
         super.materials();
         translateFromToInit();
         scoreLabelInit();
         totalWordLabelInit();
         setTargetButtonInit();
-        randomValueTextFieldInit();
+        valueTextFieldInit();
+        valueAudioInit();
         englishLabelInit();
         shouldShowEnglishCheckBoxInit();
         correctButtonInit();
@@ -89,14 +108,15 @@ public class MaterialParent extends GlobalParent {
     }
 
     protected void translateFromToInit(){
-        String[] items = {"German To English", "English To German"};
+        String[] items = Arrays.stream(TranslateEnums.values())
+                .map(TranslateEnums::getText) // Using method reference
+                .toArray(String[]::new);
+
         translateFromToDropdown = new JComboBox<>(items);
         translateFromToDropdown.setBounds(width / 2 - buttonWidth, backButton.getY() + backButton.getHeight() + 10,
                 buttonWidth * 2, buttonHeight);
 
-        translateFromToDropdown.addActionListener(e -> {
-            setGenericValueOnField();
-        });
+        translateFromToDropdown.addActionListener(e -> setGenericValueOnField());
         add(translateFromToDropdown);
     }
 
@@ -118,21 +138,48 @@ public class MaterialParent extends GlobalParent {
         return null;
     }
 
-    protected void randomValueTextFieldInit() {
-        randomValueTextField = new JTextField();
-        randomValueTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        randomValueTextField.setEnabled(false);
-        randomValueTextField.setDisabledTextColor(Color.BLACK);
-        randomValueTextField.setBackground(Color.WHITE);
-        randomValueTextField.setFont(randomValueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
-        randomValueTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
+    protected void valueTextFieldInit() {
+        valueTextField = new JTextField();
+        valueTextField.setHorizontalAlignment(SwingConstants.CENTER);
+        valueTextField.setEnabled(false);
+        valueTextField.setDisabledTextColor(Color.BLACK);
+        valueTextField.setBackground(Color.WHITE);
+        valueTextField.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
+        valueTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
 
-        add(randomValueTextField);
+        add(valueTextField);
+    }
+
+    protected void valueAudioInit() throws Exception {
+        valueAudioCanvas = new JSVGCanvas();
+        valueAudioCanvas.setURI(getSvgUri("volume").toString());
+
+        valueAudioCanvas.setEnabled(false);
+        valueAudioCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
+        valueAudioCanvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    LanguageNameEnums language = LanguageNameEnums.getFromTranslateEnums(translateFromToDropdown.getSelectedItem().toString());
+
+                    byte[] audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), valueTextField.getText());
+
+//                    FileSaveUtils.saveBytesAsFile(audioData, FilePathDecider.getFilePathByLanguageForAudio(language) + File.separator + "output.mp3");
+                    AudioUtils.playAudio(audioData);
+                }catch (Exception ex){
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
+        valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth/3, buttonHeight);
+
+        add(valueAudioCanvas);
     }
 
     protected void englishLabelInit() {
         englishLabel = new JLabel();
-        englishLabel.setBounds(width / 2 - labelWidth / 2, randomValueTextField.getY() - buttonHeight - 30,
+        englishLabel.setBounds(width / 2 - labelWidth / 2, valueTextField.getY() - buttonHeight - 30,
                 labelWidth, buttonHeight);
         add(englishLabel);
     }
@@ -140,12 +187,9 @@ public class MaterialParent extends GlobalParent {
     protected void shouldShowEnglishCheckBoxInit() {
         shouldShowEnglishCheckBox = new JCheckBox("Show Meaning", true);
         shouldShowEnglishCheckBox.setBounds(englishLabel.getX() + englishLabel.getWidth() + 20, englishLabel.getY(), buttonWidth * 2, buttonHeight);
-        shouldShowEnglishCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                // perform another operation here
-                englishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
-            }
+        shouldShowEnglishCheckBox.addItemListener(e -> {
+            // perform another operation here
+            englishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
         });
         add(shouldShowEnglishCheckBox);
     }
@@ -153,7 +197,7 @@ public class MaterialParent extends GlobalParent {
 
     protected void correctButtonInit() {
         correctButton = new JButton("Correct");
-        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, randomValueTextField.getY() + randomValueTextField.getHeight() + 10,
+        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         correctButton.addActionListener(e -> {
@@ -171,7 +215,7 @@ public class MaterialParent extends GlobalParent {
 
     protected void incorrectButtonInit() {
         incorrectButton = new JButton("Incorrect");
-        incorrectButton.setBounds(width / 2 + buttonMargin, randomValueTextField.getY() + randomValueTextField.getHeight() + 10,
+        incorrectButton.setBounds(width / 2 + buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         incorrectButton.addActionListener(e -> {
@@ -227,10 +271,10 @@ public class MaterialParent extends GlobalParent {
 
     protected void setGenericValueOnField(){
         if(translateFromToDropdown.getSelectedIndex() == 0) {
-            randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
+            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
             englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
         } else if(translateFromToDropdown.getSelectedIndex() == 1) {
-            randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
             englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
         }
     }

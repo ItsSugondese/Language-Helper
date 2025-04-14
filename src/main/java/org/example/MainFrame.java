@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
     //for dimension of frame
     private int width, height;
 
-    public MainFrame(int width, int height) {
+    public MainFrame(int width, int height) throws Exception {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         //setting value in variable to use in dimension

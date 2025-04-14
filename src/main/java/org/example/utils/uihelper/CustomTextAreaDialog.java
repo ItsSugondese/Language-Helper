@@ -1,15 +1,11 @@
 package org.example.utils.uihelper;
 
 import org.example.constants.DelimiterConstants;
-import org.example.utils.StringUtils;
+import org.example.utils.misc.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 public class CustomTextAreaDialog extends JDialog {
     private JTextArea textArea;

@@ -7,13 +7,12 @@ import org.example.constants.screen.ScreenConstants;
 import org.example.global.parentclass.MaterialParent;
 import org.example.repository.german.generic.GenericRepo;
 import org.example.utils.ActionPerformer;
-import org.example.utils.StringUtils;
+import org.example.utils.misc.StringUtils;
 import org.example.utils.uihelper.CustomTextAreaDialog;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RandomGeneratorScreen extends MaterialParent {
@@ -23,7 +22,7 @@ public class RandomGeneratorScreen extends MaterialParent {
 
 
 
-    public RandomGeneratorScreen(MainFrame frame, int width, int height) {
+    public RandomGeneratorScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
 
     }
@@ -36,7 +35,7 @@ public class RandomGeneratorScreen extends MaterialParent {
     }
 
     @Override
-    protected void materials() {
+    protected void materials() throws Exception {
         super.materials();
         insertValuesButtonInit();
         fileFromPathButtonInit();

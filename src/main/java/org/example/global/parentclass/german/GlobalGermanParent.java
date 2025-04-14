@@ -5,7 +5,7 @@ import org.example.global.parentclass.GlobalParent;
 
 public class GlobalGermanParent extends GlobalParent {
 
-    public GlobalGermanParent(MainFrame frame, int width, int height) {
+    public GlobalGermanParent(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 }

@@ -13,7 +13,7 @@ public class HomePageScreen extends MenuGlobalParent {
     //All the buttons and label
     private JButton germanButton;
 
-    public HomePageScreen(MainFrame frame, int width, int height){
+    public HomePageScreen(MainFrame frame, int width, int height) throws Exception {
 
         super(frame, width, height);
     }

@@ -13,7 +13,7 @@ public class VerbScreen extends MenuGlobalParent {
     private JButton verbMeaningButton;
 
 
-    public VerbScreen(MainFrame frame, int width, int height){
+    public VerbScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 

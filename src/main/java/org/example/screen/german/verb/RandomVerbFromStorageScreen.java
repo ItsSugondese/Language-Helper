@@ -8,7 +8,7 @@ import org.example.utils.ActionPerformer;
 
 public class RandomVerbFromStorageScreen extends VerbParent {
 
-    public RandomVerbFromStorageScreen(MainFrame frame, int width, int height) {
+    public RandomVerbFromStorageScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 
@@ -20,7 +20,7 @@ public class RandomVerbFromStorageScreen extends VerbParent {
     }
 
     @Override
-    protected void materials() {
+    protected void materials() throws Exception {
         super.materials();
     }
 
