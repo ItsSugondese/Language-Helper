@@ -6,7 +6,6 @@ import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
 import org.example.enums.WordType;
 import org.example.utils.uihelper.CustomPopUp;
-import org.example.utils.uihelper.CustomTextAreaDialog;
 import org.example.utils.uihelper.CustomTextFieldDialog;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -40,6 +38,8 @@ public class MaterialParent extends GlobalParent {
     protected JTextField randomValueTextField;
     protected JLabel englishLabel;
     protected JCheckBox shouldShowEnglishCheckBox;
+
+    private JComboBox<String> translateFromToDropdown;
 
     protected int randomNum;
 
@@ -68,6 +68,7 @@ public class MaterialParent extends GlobalParent {
     @Override
     protected void materials() {
         super.materials();
+        translateFromToInit();
         scoreLabelInit();
         totalWordLabelInit();
         setTargetButtonInit();
@@ -85,6 +86,26 @@ public class MaterialParent extends GlobalParent {
         if(!genericValuesList.isEmpty()){
             setGenericValueOnField();
         }
+    }
+
+    protected void translateFromToInit(){
+        String[] items = {"German To English", "English To German"};
+        translateFromToDropdown = new JComboBox<>(items);
+        translateFromToDropdown.setBounds(width / 2 - buttonWidth, backButton.getY() + backButton.getHeight() + 10,
+                buttonWidth * 2, buttonHeight);
+
+        translateFromToDropdown.addActionListener(e -> {
+            setGenericValueOnField();
+        });
+        add(translateFromToDropdown);
+    }
+
+    protected void scoreLabelInit() {
+        scoreLabel = new JLabel();
+        setFormattedScoreLabel(score);
+        scoreLabel.setBounds(width / 2 - labelWidth / 2, translateFromToDropdown.getY() + translateFromToDropdown.getHeight() + 10,
+                labelWidth, buttonHeight);
+        add(scoreLabel);
     }
 
     protected String getWordFromCombineWord(String combineWord, WordType wordType) {
@@ -111,7 +132,7 @@ public class MaterialParent extends GlobalParent {
 
     protected void englishLabelInit() {
         englishLabel = new JLabel();
-        englishLabel.setBounds(width / 2 - labelWidth / 2, randomValueTextField.getY() - buttonHeight - 10,
+        englishLabel.setBounds(width / 2 - labelWidth / 2, randomValueTextField.getY() - buttonHeight - 30,
                 labelWidth, buttonHeight);
         add(englishLabel);
     }
@@ -161,14 +182,6 @@ public class MaterialParent extends GlobalParent {
         add(incorrectButton);
     }
 
-    protected void scoreLabelInit() {
-        scoreLabel = new JLabel();
-        setFormattedScoreLabel(score);
-        scoreLabel.setBounds(width / 2 - labelWidth / 2, backButton.getY() + backButton.getHeight() + 10,
-                labelWidth, buttonHeight);
-        add(scoreLabel);
-    }
-
     protected void totalWordLabelInit() {
         totalWordLabel = new JLabel();
         setFormattedTotalWordLabel();
@@ -213,8 +226,13 @@ public class MaterialParent extends GlobalParent {
     }
 
     protected void setGenericValueOnField(){
-        randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
-        englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+        if(translateFromToDropdown.getSelectedIndex() == 0) {
+            randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
+            englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+        } else if(translateFromToDropdown.getSelectedIndex() == 1) {
+            randomValueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+            englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
+        }
     }
 
     protected void setFormattedScoreLabel(int scoreNumber) {
