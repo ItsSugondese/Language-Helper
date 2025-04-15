@@ -3,6 +3,7 @@ package org.example.global.parentclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.MainFrame;
+import org.example.constants.DelimiterConstants;
 import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.variables.VariableConstants;
 import org.example.enums.WordScreenType;
@@ -100,8 +101,14 @@ public class GlobalParent extends JPanel {
         return new URI("file:///" + FilePathConstants.ASSETS_FOLDER_ABSOLUTE_PATH + File.separator + svg + ".svg");
     }
 
-    protected WordScreenType getWordScreenType(){
-        return  null;
+    protected String getWordFromCombineWord(String combineWord, WordScreenType wordScreenType) {
+        String[] splitWord = combineWord.split(DelimiterConstants.regexPipSeperator);
+        if (wordScreenType != WordScreenType.ENGLISH) {
+            return splitWord[0].trim();
+        } else if (wordScreenType == WordScreenType.ENGLISH) {
+            return splitWord[1].trim();
+        }
+        return null;
     }
 
 

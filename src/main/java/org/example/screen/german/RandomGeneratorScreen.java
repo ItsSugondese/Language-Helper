@@ -57,7 +57,7 @@ public class RandomGeneratorScreen extends MaterialParent {
             String valuesFromDialog = CustomTextAreaDialog.showCustomDialog(frame, "Insert Text to randomize", StringUtils.mergeStringFromList(genericValuesList, DelimiterConstants.lineBreak));
             if(valuesFromDialog != null && !valuesFromDialog.isBlank()) {
                 genericValuesList = StringUtils.listFromString(valuesFromDialog, DelimiterConstants.lineBreak);
-                whenClickButton(0);
+                whenClickCorrectIncorrectButton(0);
             } else {
                 genericValuesList.clear();
             }
@@ -83,12 +83,10 @@ public class RandomGeneratorScreen extends MaterialParent {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File[] selectedFiles = fileChooser.getSelectedFiles(); // ✅ Get selected files
 
-                List<String> allValues = new ArrayList<>();
                 for (File selectedFile : selectedFiles) {
-                    allValues.addAll(GenericRepo.getAllFromFileAsList(selectedFile.getPath()));
+                    genericValuesList.addAll(GenericRepo.getAllFromFileAsList(selectedFile.getPath()));
                 }
 
-                genericValuesList = allValues;
                 whenValuesInInsertValueList();
             }
         });
@@ -107,7 +105,7 @@ public class RandomGeneratorScreen extends MaterialParent {
             incorrectButton.setEnabled(false);
         }
         setFormattedTotalWordLabel();
-        whenClickButton(0);
+        whenClickCorrectIncorrectButton(0);
     }
 
     @Override

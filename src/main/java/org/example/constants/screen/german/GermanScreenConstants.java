@@ -10,5 +10,7 @@ public class GermanScreenConstants {
 
     public static final String RANDOM_GENERATOR_PAGE = "Random Generator Page";
 
+    public static final String W_FRAGE_PAGE = "W-Frage Page";
+
 
 }

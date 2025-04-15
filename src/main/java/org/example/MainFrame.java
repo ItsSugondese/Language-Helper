@@ -9,9 +9,11 @@ import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.screen.german.NounScreen;
 import org.example.screen.german.RandomGeneratorScreen;
 import org.example.screen.german.VerbScreen;
+import org.example.screen.german.WFrageScreen;
 import org.example.screen.german.noun.RandomNounFromStorageScreen;
 import org.example.screen.german.verb.VerbMeaningScreen;
 import org.example.screen.german.verb.RandomVerbFromStorageScreen;
+import org.example.screen.homepage.AudioLoaderScreen;
 import org.example.screen.homepage.GermanHomepageScreen;
 import org.example.screen.homepage.HomePageScreen;
 
@@ -25,6 +27,7 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     private HomePageScreen homePageScreen;
     private GermanHomepageScreen germanHomepageScreen;
+    private AudioLoaderScreen audioLoaderScreen;
 
 
     // verb
@@ -36,6 +39,8 @@ public class MainFrame extends JFrame {
     private VerbMeaningScreen verbMeaningScreen;
 
     private RandomNounFromStorageScreen randomNounFromStorageScreen;
+
+    private WFrageScreen wFrageScreen;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -56,6 +61,8 @@ public class MainFrame extends JFrame {
         mainPanel.add(homePageScreen, ScreenConstants.HOME_PAGE);
         germanHomepageScreen = new GermanHomepageScreen(this, width, height);
         mainPanel.add(germanHomepageScreen, ScreenConstants.GERMAN_HOME_PAGE);
+        audioLoaderScreen = new AudioLoaderScreen(this, width, height);
+        mainPanel.add(audioLoaderScreen, ScreenConstants.AUDIO_LOADER_PAGE);
 
 
         // german
@@ -74,6 +81,9 @@ public class MainFrame extends JFrame {
         randomNounFromStorageScreen = new RandomNounFromStorageScreen(this, width, height);
         mainPanel.add(randomNounFromStorageScreen, GermanScreenConstants.RANDOM_NOUN_PAGE);
 
+        wFrageScreen = new WFrageScreen(this, width, height);
+        mainPanel.add(wFrageScreen, GermanScreenConstants.W_FRAGE_PAGE);
+
 
         //this method contains all the features of JFrame
         frameFeatures();
@@ -84,8 +94,8 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         // Initially show the startup panel
-        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
-//        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
+//        cardLayout.show(mainPanel, ScreenConstants.AUDIO_LOADER_PAGE);
+        cardLayout.show(mainPanel, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
 
         //setting frame visibility to true
         setVisible(true);

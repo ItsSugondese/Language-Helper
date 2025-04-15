@@ -126,16 +126,6 @@ public class MaterialParent extends GlobalParent {
         add(scoreLabel);
     }
 
-    protected String getWordFromCombineWord(String combineWord, WordScreenType wordScreenType) {
-        String[] splitWord = combineWord.split(DelimiterConstants.regexPipSeperator);
-        if (wordScreenType == WordScreenType.GERMAN_NOUN || wordScreenType == WordScreenType.GERMAN_VERB || wordScreenType == WordScreenType.GERMAN_RANDOM) {
-            return splitWord[0].trim();
-        } else if (wordScreenType == WordScreenType.ENGLISH) {
-            return splitWord[1].trim();
-        }
-        return null;
-    }
-
     protected void valueTextFieldInit() {
         valueTextField = new JTextField();
         valueTextField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -267,7 +257,7 @@ public class MaterialParent extends GlobalParent {
 
         correctButton.addActionListener(e -> {
             score++;
-            whenClickButton(score);
+            whenClickCorrectIncorrectButton(score);
 
             if(target>0 && score >= target){
                 CustomPopUp.showPopUpMessage(frame, "Target Completed");
@@ -285,7 +275,7 @@ public class MaterialParent extends GlobalParent {
 
         incorrectButton.addActionListener(e -> {
             score = 0;
-            whenClickButton(score);
+            whenClickCorrectIncorrectButton(score);
         });
 
         add(incorrectButton);
@@ -326,7 +316,7 @@ public class MaterialParent extends GlobalParent {
         add(shouldRandomizeCheckBox);
     }
 
-    protected void whenClickButton(int scoreNumber) {
+    protected void whenClickCorrectIncorrectButton(int scoreNumber) {
         if (!genericValuesList.isEmpty()) {
             onShouldRandomizeChanged(false);
             setGenericValueOnField();
@@ -380,6 +370,10 @@ public class MaterialParent extends GlobalParent {
         }
     }
 
+
+    protected WordScreenType getWordScreenType(){
+        return  null;
+    }
 
 
     @Override
