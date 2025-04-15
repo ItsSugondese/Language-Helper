@@ -4,6 +4,7 @@ import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
 import org.example.constants.filepath.german.GermanFilePathConstants;
 import org.example.constants.screen.ScreenConstants;
+import org.example.enums.WordScreenType;
 import org.example.global.parentclass.MaterialParent;
 import org.example.repository.german.generic.GenericRepo;
 import org.example.utils.ActionPerformer;
@@ -109,12 +110,14 @@ public class RandomGeneratorScreen extends MaterialParent {
         whenClickButton(0);
     }
 
-
-
-
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
         return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
+    }
+
+    @Override
+    protected WordScreenType getWordScreenType(){
+        return  WordScreenType.GERMAN_RANDOM;
     }
 
 

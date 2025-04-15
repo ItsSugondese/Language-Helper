@@ -6,27 +6,22 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.example.ApiGateway;
 import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
-import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.properties.PropertiesGetterConstants;
 import org.example.enums.LanguageNameEnums;
 import org.example.enums.TranslateEnums;
-import org.example.enums.WordType;
+import org.example.enums.WordScreenType;
+import org.example.utils.VariableHelper;
 import org.example.utils.files.FilePathDecider;
-import org.example.utils.files.FileSaveUtils;
+import org.example.utils.files.FileUtils;
 import org.example.utils.misc.AudioUtils;
-import org.example.utils.misc.StringUtils;
 import org.example.utils.uihelper.CustomPopUp;
 import org.example.utils.uihelper.CustomTextFieldDialog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,8 +47,8 @@ public class MaterialParent extends GlobalParent {
     protected JButton incorrectButton;
 
     protected JTextField valueTextField;
-    protected JLabel englishLabel;
-    protected JCheckBox shouldShowEnglishCheckBox;
+    protected JLabel meaningLabel;
+    protected JCheckBox shouldShowMeaningCheckBox;
 
     private JComboBox<String> translateFromToDropdown;
 
@@ -64,7 +59,7 @@ public class MaterialParent extends GlobalParent {
 
     protected List<String> genericValuesList;
     protected JSVGCanvas valueAudioCanvas;
-//    protected Screen
+    protected JSVGCanvas meaningAudioCanvas;
 
     public MaterialParent(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
@@ -92,8 +87,9 @@ public class MaterialParent extends GlobalParent {
         setTargetButtonInit();
         valueTextFieldInit();
         valueAudioInit();
-        englishLabelInit();
-        shouldShowEnglishCheckBoxInit();
+        meaningLabelInit();
+        meaningAudioInit();
+        shouldShowMeaningCheckBoxInit();
         correctButtonInit();
         incorrectButtonInit();
         shouldRandomizeCheckBoxInit();
@@ -104,6 +100,8 @@ public class MaterialParent extends GlobalParent {
         super.conclusion();
         if(!genericValuesList.isEmpty()){
             setGenericValueOnField();
+        } else {
+            setAudioCanvasVisibility();
         }
     }
 
@@ -128,11 +126,11 @@ public class MaterialParent extends GlobalParent {
         add(scoreLabel);
     }
 
-    protected String getWordFromCombineWord(String combineWord, WordType wordType) {
+    protected String getWordFromCombineWord(String combineWord, WordScreenType wordScreenType) {
         String[] splitWord = combineWord.split(DelimiterConstants.regexPipSeperator);
-        if (wordType == WordType.NOUN || wordType == WordType.VERB || wordType == WordType.RANDOM) {
+        if (wordScreenType == WordScreenType.GERMAN_NOUN || wordScreenType == WordScreenType.GERMAN_VERB || wordScreenType == WordScreenType.GERMAN_RANDOM) {
             return splitWord[0].trim();
-        } else if (wordType == WordType.ENGLISH) {
+        } else if (wordScreenType == WordScreenType.ENGLISH) {
             return splitWord[1].trim();
         }
         return null;
@@ -154,22 +152,40 @@ public class MaterialParent extends GlobalParent {
         valueAudioCanvas = new JSVGCanvas();
         valueAudioCanvas.setURI(getSvgUri("volume").toString());
 
-        valueAudioCanvas.setEnabled(false);
         valueAudioCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
         valueAudioCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                try {
-                    LanguageNameEnums language = LanguageNameEnums.getFromTranslateEnums(translateFromToDropdown.getSelectedItem().toString());
 
-                    byte[] audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), valueTextField.getText());
+                    try {
+                        String wordSearch = valueTextField.getText().trim();
+                        WordScreenType fromLangDetails;
 
-//                    FileSaveUtils.saveBytesAsFile(audioData, FilePathDecider.getFilePathByLanguageForAudio(language) + File.separator + "output.mp3");
-                    AudioUtils.playAudio(audioData);
-                }catch (Exception ex){
-                    throw new RuntimeException(ex);
-                }
+                        LanguageNameEnums from = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getFrom();
 
+                        if(from != LanguageNameEnums.ENGLISH){
+                            fromLangDetails = getWordScreenType();
+                        } else {
+                            fromLangDetails = WordScreenType.valueOf(from.name());
+                        }
+
+                        byte[] audioData = null;
+
+                        for (String filePath : FilePathDecider.getAudioFolderByScreen(fromLangDetails)) {
+                            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
+                            if (VariableHelper.isNotEmptyByteArray(audioData))
+                                break;
+                        }
+
+                        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
+                            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
+                            FileUtils.saveBytesAsFile(audioData, fromLangDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
+                        }
+
+                        AudioUtils.playAudio(audioData);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
             }
         });
         valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth/3, buttonHeight);
@@ -177,21 +193,70 @@ public class MaterialParent extends GlobalParent {
         add(valueAudioCanvas);
     }
 
-    protected void englishLabelInit() {
-        englishLabel = new JLabel();
-        englishLabel.setBounds(width / 2 - labelWidth / 2, valueTextField.getY() - buttonHeight - 30,
+    protected void meaningLabelInit() {
+        meaningLabel = new JLabel();
+        meaningLabel.setBounds(width / 2 - labelWidth / 2, valueTextField.getY() - buttonHeight - 30,
                 labelWidth, buttonHeight);
-        add(englishLabel);
+        add(meaningLabel);
     }
 
-    protected void shouldShowEnglishCheckBoxInit() {
-        shouldShowEnglishCheckBox = new JCheckBox("Show Meaning", true);
-        shouldShowEnglishCheckBox.setBounds(englishLabel.getX() + englishLabel.getWidth() + 20, englishLabel.getY(), buttonWidth * 2, buttonHeight);
-        shouldShowEnglishCheckBox.addItemListener(e -> {
-            // perform another operation here
-            englishLabel.setVisible(shouldShowEnglishCheckBox.isSelected());
+    protected void meaningAudioInit() throws Exception {
+        meaningAudioCanvas = new JSVGCanvas();
+        meaningAudioCanvas.setURI(getSvgUri("volume").toString());
+
+
+        meaningAudioCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
+        meaningAudioCanvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    try {
+                        String wordSearch = meaningLabel.getText().trim();
+
+                        WordScreenType toLangDetails;
+
+                        LanguageNameEnums to = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getTo();
+
+                        if(to != LanguageNameEnums.ENGLISH){
+                            toLangDetails = getWordScreenType();
+                        } else {
+                            toLangDetails = WordScreenType.valueOf(to.name());
+                        }
+
+                        byte[] audioData = null;
+
+                        for (String filePath : FilePathDecider.getAudioFolderByScreen(toLangDetails)) {
+                            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
+                            if (VariableHelper.isNotEmptyByteArray(audioData))
+                                break;
+                        }
+
+                        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
+                            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
+                            FileUtils.saveBytesAsFile(audioData, toLangDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
+                        }
+
+                        AudioUtils.playAudio(audioData);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+
+            }
         });
-        add(shouldShowEnglishCheckBox);
+        meaningAudioCanvas.setBounds(meaningLabel.getX() + meaningLabel.getWidth() + 20, meaningLabel.getY(), buttonWidth/3, buttonHeight);
+
+        add(meaningAudioCanvas);
+    }
+
+    protected void shouldShowMeaningCheckBoxInit() {
+        shouldShowMeaningCheckBox = new JCheckBox("Show Meaning", true);
+        shouldShowMeaningCheckBox.setBounds(meaningAudioCanvas.getX() + meaningAudioCanvas.getWidth() + 20, meaningAudioCanvas.getY(), buttonWidth * 2, buttonHeight);
+        shouldShowMeaningCheckBox.addItemListener(e -> {
+            // perform another operation here
+            meaningLabel.setVisible(shouldShowMeaningCheckBox.isSelected());
+            meaningAudioCanvas.setVisible(shouldShowMeaningCheckBox.isSelected() && !meaningLabel.getText().isBlank());
+        });
+        add(shouldShowMeaningCheckBox);
     }
 
 
@@ -266,17 +331,33 @@ public class MaterialParent extends GlobalParent {
             onShouldRandomizeChanged(false);
             setGenericValueOnField();
             setFormattedScoreLabel(scoreNumber);
+        } else {
+            valueTextField.setText("");
+            meaningLabel.setText("");
+            setAudioCanvasVisibility();
         }
     }
 
     protected void setGenericValueOnField(){
         if(translateFromToDropdown.getSelectedIndex() == 0) {
-            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
-            englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
+            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
+            meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
         } else if(translateFromToDropdown.getSelectedIndex() == 1) {
-            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.ENGLISH));
-            englishLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordType.RANDOM));
+            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
+            meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
         }
+
+        setAudioCanvasVisibility();
+    }
+
+    protected void setAudioCanvasVisibility(){
+        valueAudioCanvas.setVisible(
+                valueTextField.getText() != null && !valueTextField.getText().isBlank()
+        );
+
+        meaningAudioCanvas.setVisible(
+                meaningLabel.getText() != null && !meaningLabel.getText().isBlank()
+        );
     }
 
     protected void setFormattedScoreLabel(int scoreNumber) {

@@ -3,16 +3,9 @@ package org.example.screen.german.noun;
 import org.example.MainFrame;
 import org.example.constants.filepath.german.noun.NounGermanFilePathConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
-import org.example.enums.WordType;
+import org.example.enums.WordScreenType;
 import org.example.repository.german.generic.GenericRepo;
-import org.example.repository.german.noun.NounRepo;
 import org.example.utils.ActionPerformer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.List;
 
 public class RandomNounFromStorageScreen extends NounParent {
 
@@ -36,6 +29,11 @@ public class RandomNounFromStorageScreen extends NounParent {
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
         return new ActionPerformer(frame, GermanScreenConstants.NOUN_PAGE);
+    }
+
+    @Override
+    protected WordScreenType getWordScreenType(){
+        return  WordScreenType.GERMAN_NOUN;
     }
 }
 

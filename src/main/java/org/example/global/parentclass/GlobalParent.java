@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.example.MainFrame;
 import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.variables.VariableConstants;
+import org.example.enums.WordScreenType;
 import org.example.utils.ActionPerformer;
 
 import javax.swing.*;
@@ -97,6 +98,10 @@ public class GlobalParent extends JPanel {
 
     protected URI getSvgUri(String svg) throws URISyntaxException {
         return new URI("file:///" + FilePathConstants.ASSETS_FOLDER_ABSOLUTE_PATH + File.separator + svg + ".svg");
+    }
+
+    protected WordScreenType getWordScreenType(){
+        return  null;
     }
 
 

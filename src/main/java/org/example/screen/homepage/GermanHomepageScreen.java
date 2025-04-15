@@ -1,22 +1,12 @@
 package org.example.screen.homepage;
 
-import javazoom.jl.player.Player;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import org.example.ApiGateway;
 import org.example.MainFrame;
-import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
 import org.example.utils.ActionPerformer;
-import org.example.utils.files.FileSaveUtils;
-import org.example.utils.misc.AudioUtils;
 
 import javax.swing.*;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class GermanHomepageScreen extends MenuGlobalParent {
 
@@ -68,13 +58,6 @@ public class GermanHomepageScreen extends MenuGlobalParent {
     protected ActionPerformer backButtonPathSetter(String path) {
         return new ActionPerformer(frame, ScreenConstants.HOME_PAGE);
     }
-
-
-
-
-
-
-
-
+    
 }
 

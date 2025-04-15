@@ -37,7 +37,7 @@ public class StringUtils {
     }
 
     public static String toUpperSeparator(String string, String separator) {
-        return string.replaceAll("\\s+", separator);
+        return string.replaceAll("\\s+", separator).toUpperCase();
     }
 
     public static String toCamelCase(String str, char separator, boolean toUppercase) {

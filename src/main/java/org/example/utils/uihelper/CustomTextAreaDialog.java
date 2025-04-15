@@ -72,10 +72,7 @@ public class CustomTextAreaDialog extends JDialog {
         return textArea.getText();
     }
 
-    // Check if the user clicked OK
-    public boolean isConfirmed() {
-        return confirmed;
-    }
+
 
     // Static method to get the singleton instance of the dialog
     private static CustomTextAreaDialog getInstance(Frame owner, String title, String initialText) {
@@ -93,10 +90,12 @@ public class CustomTextAreaDialog extends JDialog {
         CustomTextAreaDialog dialog = getInstance(owner, title, initialText);
         dialog.setVisible(true);
 
-        if (dialog.isConfirmed()) {
-            return dialog.getText();  // User clicked OK, return the entered text
+        if(!dialog.getText().isEmpty() && dialog.confirmed){
+            return dialog.getText();
+        } else if(dialog.confirmed){
+            return null;
         } else {
-            return null;  // User clicked Cancel, return null
+            return initialText;
         }
     }
 }
