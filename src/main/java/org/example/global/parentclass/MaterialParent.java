@@ -195,30 +195,6 @@ public class MaterialParent extends GlobalParent {
         add(meaningAudioCanvas);
     }
 
-    protected void audioSaveAndPlay(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
-        WordScreenType langScreenDetails;
-        if (languageNameEnums != LanguageNameEnums.ENGLISH) {
-            langScreenDetails = getWordScreenType();
-        } else {
-            langScreenDetails = WordScreenType.valueOf(languageNameEnums.name());
-        }
-
-        byte[] audioData = null;
-
-        for (String filePath : FilePathDecider.getAudioFolderByScreen(langScreenDetails)) {
-            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
-            if (VariableHelper.isNotEmptyByteArray(audioData))
-                break;
-        }
-
-        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
-            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
-            FileUtils.saveBytesAsFile(audioData, langScreenDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
-        }
-
-        AudioUtils.playAudio(audioData);
-    }
-
     protected void shouldShowMeaningCheckBoxInit() {
         shouldShowMeaningCheckBox = new JCheckBox("Show Meaning", true);
         shouldShowMeaningCheckBox.setBounds(meaningAudioCanvas.getX() + meaningAudioCanvas.getWidth() + 20, meaningAudioCanvas.getY(), buttonWidth * 2, buttonHeight);
@@ -286,6 +262,7 @@ public class MaterialParent extends GlobalParent {
         add(setTargetButton);
     }
 
+
     protected void shouldRandomizeCheckBoxInit() {
         shouldRandomizeCheckBox = new JCheckBox("Randomize?", true);
         shouldRandomizeCheckBox.setBounds(width / 2 - buttonWidth, correctButton.getY() + correctButton.getHeight() + 10,
@@ -297,6 +274,7 @@ public class MaterialParent extends GlobalParent {
         add(shouldRandomizeCheckBox);
     }
 
+    // action to perform when clicking is triggered in correct/incorrect button
     protected void whenClickCorrectIncorrectButton(int scoreNumber) {
         if (!genericValuesList.isEmpty()) {
             onShouldRandomizeChanged(false);
@@ -309,6 +287,7 @@ public class MaterialParent extends GlobalParent {
         }
     }
 
+    // for setting value from genericList to text field an meaning field
     protected void setGenericValueOnField() {
         if (translateFromToDropdown.getSelectedIndex() == 0) {
             valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
@@ -321,6 +300,7 @@ public class MaterialParent extends GlobalParent {
         setAudioCanvasVisibility();
     }
 
+    // to show audio icon near word
     protected void setAudioCanvasVisibility() {
         valueAudioCanvas.setVisible(
                 valueTextField.getText() != null && !valueTextField.getText().isBlank()
@@ -331,15 +311,18 @@ public class MaterialParent extends GlobalParent {
         );
     }
 
+    // to set score in score label
     protected void setFormattedScoreLabel(int scoreNumber) {
         score = scoreNumber;
         scoreLabel.setText(String.format(scoreLabelTemplate, scoreNumber));
     }
 
+    // to set totalWordCount in label
     protected void setFormattedTotalWordLabel() {
         totalWordLabel.setText(String.format(totalWordLabelTemplate, getTillNumberValue()));
     }
 
+    // when toggle in randomizeCheckbox
     protected void onShouldRandomizeChanged(boolean isToggledRandomize) {
         if (!genericValuesList.isEmpty()) {
 
@@ -352,10 +335,13 @@ public class MaterialParent extends GlobalParent {
     }
 
 
+    // to set class/string name  (compulsoary)
     protected WordScreenType getWordScreenType() {
         return null;
     }
 
+
+    // for when there is list of word aded in generic value list
     protected void whenValuesInInsertValueList() {
         correctButton.setEnabled(!genericValuesList.isEmpty());
         incorrectButton.setEnabled(!genericValuesList.isEmpty());
@@ -364,6 +350,35 @@ public class MaterialParent extends GlobalParent {
         whenClickCorrectIncorrectButton(0);
     }
 
+    // for saving and playing audio of word
+    protected void audioSaveAndPlay(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+        byte[] audioData = saveAudio(languageNameEnums, wordSearch);
+        AudioUtils.playAudio(audioData);
+    }
+
+    // for saving audio of word
+    protected byte[] saveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+        WordScreenType langScreenDetails;
+        if (languageNameEnums != LanguageNameEnums.ENGLISH) {
+            langScreenDetails = getWordScreenType();
+        } else {
+            langScreenDetails = WordScreenType.valueOf(languageNameEnums.name());
+        }
+
+        byte[] audioData = null;
+
+        for (String filePath : FilePathDecider.getAudioFolderByScreen(langScreenDetails)) {
+            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
+            if (VariableHelper.isNotEmptyByteArray(audioData))
+                break;
+        }
+
+        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
+            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
+            FileUtils.saveBytesAsFile(audioData, langScreenDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
+        }
+        return audioData;
+    }
 
     @Override
     protected int getTillNumberValue() {

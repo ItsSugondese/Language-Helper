@@ -12,7 +12,6 @@ import org.example.repository.german.generic.GenericRepo;
 import org.example.utils.ActionPerformer;
 import org.example.utils.VariableHelper;
 import org.example.utils.files.FileUtils;
-import org.example.utils.misc.AudioUtils;
 import org.example.utils.uihelper.CustomPopUp;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -88,14 +87,8 @@ public class GermanMiscScreen extends MaterialParent implements Refreshable {
         add(audioLoaderButton);
     }
 
-
     @Override
-    protected void audioSaveAndPlay(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
-        byte[] audioData = saveAudio(languageNameEnums, wordSearch);
-        AudioUtils.playAudio(audioData);
-    }
-
-    private byte[] saveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+    protected byte[] saveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
         WordScreenType langScreenDetails;
         String audioPath;
         if (languageNameEnums != LanguageNameEnums.ENGLISH) {

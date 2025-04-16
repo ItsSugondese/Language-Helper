@@ -72,35 +72,45 @@ public class GlobalParent extends JPanel {
         add(backButton);
     }
 
+    // for initizaling value that will be later used in UI element initialization
     protected void initilizer() {
     }
 
+    // for initializing UI elements
     protected void materials() throws Exception {
     }
 
+    // value to initialize after everything mainly UI elements is done
     protected void conclusion() {
     }
 
+    // screen to redirect when back button is clicked (compulsory)
     protected ActionPerformer backButtonPathSetter(String path) {
         return null;
     }
 
+    // for deciding if backButton should be in the screen or not
     protected boolean haveBackButton() {
         return Boolean.TRUE;
     }
 
+    // helper for generating random number
     protected int generateRandomNumber(int till) {
         return random.nextInt(till);
     }
 
+    // for setting size of main List
     protected int getTillNumberValue() {
         return 0;
     }
 
+    // for getting svg icon from assset folder
     protected URI getSvgUri(String svg) throws URISyntaxException {
         return new URI("file:///" + FilePathConstants.ASSETS_FOLDER_ABSOLUTE_PATH + File.separator + svg + ".svg");
     }
 
+
+    // get One side of the word from seperated string
     protected String getWordFromCombineWord(String combineWord, WordScreenType wordScreenType) {
         String[] splitWord = combineWord.split(DelimiterConstants.regexPipSeperator);
         if (wordScreenType != WordScreenType.ENGLISH) {
