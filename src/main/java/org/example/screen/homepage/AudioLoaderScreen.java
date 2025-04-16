@@ -99,7 +99,7 @@ public class AudioLoaderScreen extends GlobalParent {
                 );
             }
 
-            CustomPopUp.showPopUpMessage(frame, "Data Loaded Successfully");
+            CustomPopUp.showPopUpMessage(frame, "Audio Loaded Successfully");
 
             generateButton.setEnabled(true);
         });

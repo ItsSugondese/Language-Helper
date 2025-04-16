@@ -95,19 +95,6 @@ public class RandomGeneratorScreen extends MaterialParent {
         add(fileFromPathButton);
     }
 
-
-    protected void whenValuesInInsertValueList(){
-        if (!genericValuesList.isEmpty()){
-            correctButton.setEnabled(true);
-            incorrectButton.setEnabled(true);
-        } else {
-            correctButton.setEnabled(false);
-            incorrectButton.setEnabled(false);
-        }
-        setFormattedTotalWordLabel();
-        whenClickCorrectIncorrectButton(0);
-    }
-
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
         return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);

@@ -13,6 +13,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
     private JButton nounButton;
     private JButton verbButton;
     private JButton wFrageButton;
+    private JButton miscButton;
     private JButton randomGeneratorButton;
 
     public GermanHomepageScreen(MainFrame frame, int width, int height) throws Exception {
@@ -26,6 +27,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         askLabelInit();
         verbButtonInit();
         wFrageButtonInit();
+        miscButtonInit();
         randomGeneratorButtonInit();
     }
 
@@ -37,7 +39,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
 
     protected void nounButtonInit(){
         nounButton = new JButton(startHtml + "Noun" + endHtml);
-        nounButton.setBounds(width/2 - buttonWidth/2, height/2 - buttonHeight - 5 , buttonWidth, buttonHeight);
+        nounButton.setBounds(width/2 - buttonWidth/2, height/2 - buttonHeight *3 , buttonWidth, buttonHeight);
         nounButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.NOUN_PAGE));
         add(nounButton);
     }
@@ -56,9 +58,16 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         add(wFrageButton);
     }
 
+    protected void miscButtonInit(){
+        miscButton = new JButton(startHtml + "Misc" + endHtml);
+        miscButton.setBounds(wFrageButton.getX(), wFrageButton.getY() + wFrageButton.getHeight() + 20 , buttonWidth, buttonHeight);
+        miscButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.GERMAN_MISC_PAGE));
+        add(miscButton);
+    }
+
     protected void randomGeneratorButtonInit(){
         randomGeneratorButton = new JButton(startHtml + "Random Generator" + endHtml);
-        randomGeneratorButton.setBounds(wFrageButton.getX(), wFrageButton.getY() + wFrageButton.getHeight() + 20 , buttonWidth, buttonHeight);
+        randomGeneratorButton.setBounds(miscButton.getX(), miscButton.getY() + miscButton.getHeight() + 20 , buttonWidth, buttonHeight);
         randomGeneratorButton.addActionListener(new ActionPerformer(frame, GermanScreenConstants.RANDOM_GENERATOR_PAGE));
         add(randomGeneratorButton);
     }

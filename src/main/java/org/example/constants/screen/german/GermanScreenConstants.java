@@ -9,6 +9,7 @@ public class GermanScreenConstants {
     public static final String VERB_MEANING_PAGE = "Verb Meaning Page";
 
     public static final String RANDOM_GENERATOR_PAGE = "Random Generator Page";
+    public static final String GERMAN_MISC_PAGE = "German Misc Page";
 
     public static final String W_FRAGE_PAGE = "W-Frage Page";
 

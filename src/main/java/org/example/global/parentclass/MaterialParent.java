@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.apache.batik.swing.JSVGCanvas;
 import org.example.ApiGateway;
 import org.example.MainFrame;
-import org.example.constants.DelimiterConstants;
 import org.example.constants.properties.PropertiesGetterConstants;
 import org.example.enums.LanguageNameEnums;
 import org.example.enums.TranslateEnums;
@@ -50,7 +49,7 @@ public class MaterialParent extends GlobalParent {
     protected JLabel meaningLabel;
     protected JCheckBox shouldShowMeaningCheckBox;
 
-    private JComboBox<String> translateFromToDropdown;
+    protected JComboBox<String> translateFromToDropdown;
 
     protected int randomNum;
 
@@ -74,14 +73,14 @@ public class MaterialParent extends GlobalParent {
         buttonMargin = 10;
         scoreLabelTemplate = "<html><b>Score: %d</b></html>";
         totalWordLabelTemplate = "<html><b>Total Words: %d</b></html>";
-        genericValuesList =  new ArrayList<>();
+        genericValuesList = new ArrayList<>();
 
     }
 
     @Override
     protected void materials() throws Exception {
         super.materials();
-        translateFromToInit();
+        translateFromToDropdownInit();
         scoreLabelInit();
         totalWordLabelInit();
         setTargetButtonInit();
@@ -98,14 +97,14 @@ public class MaterialParent extends GlobalParent {
     @Override
     protected void conclusion() {
         super.conclusion();
-        if(!genericValuesList.isEmpty()){
+        if (!genericValuesList.isEmpty()) {
             setGenericValueOnField();
         } else {
             setAudioCanvasVisibility();
         }
     }
 
-    protected void translateFromToInit(){
+    protected void translateFromToDropdownInit() {
         String[] items = Arrays.stream(TranslateEnums.values())
                 .map(TranslateEnums::getText) // Using method reference
                 .toArray(String[]::new);
@@ -147,38 +146,18 @@ public class MaterialParent extends GlobalParent {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                    try {
-                        String wordSearch = valueTextField.getText().trim();
-                        WordScreenType fromLangDetails;
+                try {
+                    String wordSearch = valueTextField.getText().trim();
 
-                        LanguageNameEnums from = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getFrom();
+                    LanguageNameEnums from = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getFrom();
 
-                        if(from != LanguageNameEnums.ENGLISH){
-                            fromLangDetails = getWordScreenType();
-                        } else {
-                            fromLangDetails = WordScreenType.valueOf(from.name());
-                        }
-
-                        byte[] audioData = null;
-
-                        for (String filePath : FilePathDecider.getAudioFolderByScreen(fromLangDetails)) {
-                            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
-                            if (VariableHelper.isNotEmptyByteArray(audioData))
-                                break;
-                        }
-
-                        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
-                            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
-                            FileUtils.saveBytesAsFile(audioData, fromLangDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
-                        }
-
-                        AudioUtils.playAudio(audioData);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    audioSaveAndPlay(from, wordSearch);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
-        valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth/3, buttonHeight);
+        valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
 
         add(valueAudioCanvas);
     }
@@ -199,43 +178,45 @@ public class MaterialParent extends GlobalParent {
         meaningAudioCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                    try {
-                        String wordSearch = meaningLabel.getText().trim();
+                try {
+                    String wordSearch = meaningLabel.getText().trim();
+                    LanguageNameEnums to = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getTo();
 
-                        WordScreenType toLangDetails;
-
-                        LanguageNameEnums to = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getTo();
-
-                        if(to != LanguageNameEnums.ENGLISH){
-                            toLangDetails = getWordScreenType();
-                        } else {
-                            toLangDetails = WordScreenType.valueOf(to.name());
-                        }
-
-                        byte[] audioData = null;
-
-                        for (String filePath : FilePathDecider.getAudioFolderByScreen(toLangDetails)) {
-                            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
-                            if (VariableHelper.isNotEmptyByteArray(audioData))
-                                break;
-                        }
-
-                        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
-                            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
-                            FileUtils.saveBytesAsFile(audioData, toLangDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
-                        }
-
-                        AudioUtils.playAudio(audioData);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    audioSaveAndPlay(to, wordSearch);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
 
 
             }
         });
-        meaningAudioCanvas.setBounds(meaningLabel.getX() + meaningLabel.getWidth() + 20, meaningLabel.getY(), buttonWidth/3, buttonHeight);
+        meaningAudioCanvas.setBounds(meaningLabel.getX() + meaningLabel.getWidth() + 20, meaningLabel.getY(), buttonWidth / 3, buttonHeight);
 
         add(meaningAudioCanvas);
+    }
+
+    protected void audioSaveAndPlay(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+        WordScreenType langScreenDetails;
+        if (languageNameEnums != LanguageNameEnums.ENGLISH) {
+            langScreenDetails = getWordScreenType();
+        } else {
+            langScreenDetails = WordScreenType.valueOf(languageNameEnums.name());
+        }
+
+        byte[] audioData = null;
+
+        for (String filePath : FilePathDecider.getAudioFolderByScreen(langScreenDetails)) {
+            audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
+            if (VariableHelper.isNotEmptyByteArray(audioData))
+                break;
+        }
+
+        if (!VariableHelper.isNotEmptyByteArray(audioData)) {
+            audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
+            FileUtils.saveBytesAsFile(audioData, langScreenDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
+        }
+
+        AudioUtils.playAudio(audioData);
     }
 
     protected void shouldShowMeaningCheckBoxInit() {
@@ -259,7 +240,7 @@ public class MaterialParent extends GlobalParent {
             score++;
             whenClickCorrectIncorrectButton(score);
 
-            if(target>0 && score >= target){
+            if (target > 0 && score >= target) {
                 CustomPopUp.showPopUpMessage(frame, "Target Completed");
                 setFormattedScoreLabel(0);
             }
@@ -295,7 +276,7 @@ public class MaterialParent extends GlobalParent {
                 buttonWidth, buttonHeight);
         setTargetButton.addActionListener(e -> {
             String valuesFromDialog = CustomTextFieldDialog.showCustomDialog(frame, "Insert Target you want to set", String.valueOf(target));
-            if(valuesFromDialog != null && !valuesFromDialog.isBlank()) {
+            if (valuesFromDialog != null && !valuesFromDialog.isBlank()) {
                 setFormattedScoreLabel(0);
                 target = Integer.parseInt(valuesFromDialog);
                 setTargetButton.setText(valuesFromDialog);
@@ -307,8 +288,8 @@ public class MaterialParent extends GlobalParent {
 
     protected void shouldRandomizeCheckBoxInit() {
         shouldRandomizeCheckBox = new JCheckBox("Randomize?", true);
-        shouldRandomizeCheckBox.setBounds(width/2 - buttonWidth, correctButton.getY() + correctButton.getHeight() + 10,
-                buttonWidth *2, buttonHeight);
+        shouldRandomizeCheckBox.setBounds(width / 2 - buttonWidth, correctButton.getY() + correctButton.getHeight() + 10,
+                buttonWidth * 2, buttonHeight);
         shouldRandomizeCheckBox.addItemListener(e -> {
             // perform another operation here
             onShouldRandomizeChanged(true);
@@ -328,11 +309,11 @@ public class MaterialParent extends GlobalParent {
         }
     }
 
-    protected void setGenericValueOnField(){
-        if(translateFromToDropdown.getSelectedIndex() == 0) {
+    protected void setGenericValueOnField() {
+        if (translateFromToDropdown.getSelectedIndex() == 0) {
             valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
             meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
-        } else if(translateFromToDropdown.getSelectedIndex() == 1) {
+        } else if (translateFromToDropdown.getSelectedIndex() == 1) {
             valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
             meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
         }
@@ -340,7 +321,7 @@ public class MaterialParent extends GlobalParent {
         setAudioCanvasVisibility();
     }
 
-    protected void setAudioCanvasVisibility(){
+    protected void setAudioCanvasVisibility() {
         valueAudioCanvas.setVisible(
                 valueTextField.getText() != null && !valueTextField.getText().isBlank()
         );
@@ -360,9 +341,9 @@ public class MaterialParent extends GlobalParent {
     }
 
     protected void onShouldRandomizeChanged(boolean isToggledRandomize) {
-        if(!genericValuesList.isEmpty()) {
+        if (!genericValuesList.isEmpty()) {
 
-            randomNum = shouldRandomizeCheckBox.isSelected() ? generateRandomNumber(getTillNumberValue()) : (!isToggledRandomize? randomNum + 1 : randomNum);
+            randomNum = shouldRandomizeCheckBox.isSelected() ? generateRandomNumber(getTillNumberValue()) : (!isToggledRandomize ? randomNum + 1 : randomNum);
 
             if (randomNum > getTillNumberValue() - 1) {
                 randomNum = 0;
@@ -371,8 +352,16 @@ public class MaterialParent extends GlobalParent {
     }
 
 
-    protected WordScreenType getWordScreenType(){
-        return  null;
+    protected WordScreenType getWordScreenType() {
+        return null;
+    }
+
+    protected void whenValuesInInsertValueList() {
+        correctButton.setEnabled(!genericValuesList.isEmpty());
+        incorrectButton.setEnabled(!genericValuesList.isEmpty());
+
+        setFormattedTotalWordLabel();
+        whenClickCorrectIncorrectButton(0);
     }
 
 

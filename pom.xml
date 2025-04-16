@@ -40,7 +40,22 @@
             <version>1.14</version> <!-- Check for latest version -->
         </dependency>
 
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
