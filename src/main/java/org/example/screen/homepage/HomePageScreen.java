@@ -1,10 +1,9 @@
 package org.example.screen.homepage;
 
 import org.example.MainFrame;
-import org.example.global.parentclass.GlobalParent;
+import org.example.constants.screen.ScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
 import org.example.utils.ActionPerformer;
-import org.example.constants.screen.ScreenConstants;
 
 import javax.swing.*;
 
@@ -12,7 +11,6 @@ public class HomePageScreen extends MenuGlobalParent {
 
     //All the buttons and label
     protected JButton germanButton;
-    protected JButton audioLoaderButton;
 
     public HomePageScreen(MainFrame frame, int width, int height) throws Exception {
 
@@ -25,7 +23,6 @@ public class HomePageScreen extends MenuGlobalParent {
 
         //for golang button declaration, properties and panel adding
         germanInit();
-        audioLoaderInit();
         //for asking label declaration, properties and panel adding
         ask();
 
@@ -42,13 +39,6 @@ public class HomePageScreen extends MenuGlobalParent {
         germanButton.setBounds(width/2 - buttonWidth/2, height/2 - buttonHeight - 5 , buttonWidth, buttonHeight);
         germanButton.addActionListener(new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE));
         add(germanButton);
-    }
-
-    protected void audioLoaderInit(){
-        audioLoaderButton = new JButton(startHtml + "Load Audio" + endHtml);
-        audioLoaderButton.setBounds(germanButton.getX(), germanButton.getY() + germanButton.getHeight() + 10, buttonWidth, buttonHeight);
-        audioLoaderButton.addActionListener(new ActionPerformer(frame, ScreenConstants.AUDIO_LOADER_PAGE));
-        add(audioLoaderButton);
     }
 
     @Override

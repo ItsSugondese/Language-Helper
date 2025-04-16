@@ -17,49 +17,55 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class GermanMiscScreen extends MaterialParent implements Refreshable {
-    private JComboBox<String> miscItemsFromPathDropdown;
-    private JButton audioLoaderButton;
+public class GermanAllWordScreen extends MaterialParent implements Refreshable {
+    protected JComboBox<String> allItemsFromPathDropdown;
+    protected JButton audioLoaderButton;
+    protected List<String> itemsList;
 
-    public GermanMiscScreen(MainFrame frame, int width, int height) throws Exception {
+
+    public GermanAllWordScreen(MainFrame frame, int width, int height) throws Exception {
         super(frame, width, height);
     }
 
     @Override
-    protected ActionPerformer backButtonPathSetter(String path) {
-        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
+    protected void initilizer() {
+        super.initilizer();
+        itemsList = new ArrayList<>();
     }
 
     @Override
     protected void materials() throws Exception {
         super.materials();
-        miscItemsFromPathDropdownInit();
+        allItemsFromPathDropdownInit();
         audioLoaderButtonInit();
     }
 
-    protected void miscItemsFromPathDropdownInit() {
+    protected void allItemsFromPathDropdownInit() {
 
-        miscItemsFromPathDropdown = new JComboBox<>();
+        allItemsFromPathDropdown = new JComboBox<>();
         setValuesInMiscItems();
 
-        miscItemsFromPathDropdown.setBounds(translateFromToDropdown.getX(), scoreLabel.getY() + scoreLabel.getHeight() + 10,
+        allItemsFromPathDropdown.setBounds(translateFromToDropdown.getX(), scoreLabel.getY() + scoreLabel.getHeight() + 10,
                 buttonWidth * 2, buttonHeight);
 
 
-        miscItemsFromPathDropdown.addActionListener(e -> {
-            if (miscItemsFromPathDropdown.getSelectedItem() != null) {
+        allItemsFromPathDropdown.addActionListener(e -> {
+            if (allItemsFromPathDropdown.getSelectedItem() != null && itemsList.contains(allItemsFromPathDropdown.getSelectedItem().toString())) {
                 genericValuesList = GenericRepo.getAllFromFileAsList(getSelectedDropDownPath());
                 whenValuesInInsertValueList();
             }
         });
-        add(miscItemsFromPathDropdown);
+        add(allItemsFromPathDropdown);
     }
 
     protected void audioLoaderButtonInit() {
         audioLoaderButton = new JButton("Load Audio");
-        audioLoaderButton.setBounds(miscItemsFromPathDropdown.getX() + buttonWidth / 2, miscItemsFromPathDropdown.getY() + miscItemsFromPathDropdown.getHeight() + 10,
+        audioLoaderButton.setBounds(allItemsFromPathDropdown.getX() + buttonWidth / 2, allItemsFromPathDropdown.getY() + allItemsFromPathDropdown.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         audioLoaderButton.setEnabled(!genericValuesList.isEmpty());
@@ -93,7 +99,7 @@ public class GermanMiscScreen extends MaterialParent implements Refreshable {
         String audioPath;
         if (languageNameEnums != LanguageNameEnums.ENGLISH) {
             langScreenDetails = getWordScreenType();
-            audioPath = langScreenDetails.getAudioPath() + File.separator + String.valueOf(miscItemsFromPathDropdown.getSelectedItem()).toLowerCase();
+            audioPath = langScreenDetails.getAudioPath() + File.separator + String.valueOf(allItemsFromPathDropdown.getSelectedItem()).toLowerCase();
             FileUtils.createDirectoryIfNotExists(audioPath);
         } else {
             langScreenDetails = WordScreenType.valueOf(languageNameEnums.name());
@@ -113,9 +119,18 @@ public class GermanMiscScreen extends MaterialParent implements Refreshable {
         return audioData;
     }
 
-    @Override
-    protected WordScreenType getWordScreenType() {
-        return WordScreenType.GERMAN_MISC;
+
+    protected void setValuesInMiscItems() {
+        String[] items = FileUtils.getAllFileNamesFromFolder(WordScreenType.GERMAN_ALL_WORD.getWordPath())
+                .toArray(new String[0]);
+        itemsList = Arrays.asList(items);
+        allItemsFromPathDropdown.setModel(new DefaultComboBoxModel<>(items));
+        allItemsFromPathDropdown.setSelectedItem(null);
+        AutoCompleteDecorator.decorate(allItemsFromPathDropdown);
+    }
+
+    protected String getSelectedDropDownPath() {
+        return WordScreenType.GERMAN_ALL_WORD.getWordPath() + File.separator + allItemsFromPathDropdown.getSelectedItem();
     }
 
     @Override
@@ -123,14 +138,6 @@ public class GermanMiscScreen extends MaterialParent implements Refreshable {
         genericValuesList.clear();
         setValuesInMiscItems();
         whenValuesInInsertValueList();
-    }
-
-    protected void setValuesInMiscItems() {
-        String[] items = FileUtils.getAllFileNamesFromFolder(WordScreenType.GERMAN_MISC.getWordPath())
-                .toArray(new String[0]);
-        miscItemsFromPathDropdown.setModel(new DefaultComboBoxModel(items));
-        miscItemsFromPathDropdown.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(miscItemsFromPathDropdown);
     }
 
     @Override
@@ -143,7 +150,14 @@ public class GermanMiscScreen extends MaterialParent implements Refreshable {
         whenClickCorrectIncorrectButton(0);
     }
 
-    protected String getSelectedDropDownPath() {
-        return WordScreenType.GERMAN_MISC.getWordPath() + File.separator + miscItemsFromPathDropdown.getSelectedItem();
+
+    @Override
+    protected ActionPerformer backButtonPathSetter(String path) {
+        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
+    }
+
+    @Override
+    protected WordScreenType getWordScreenType() {
+        return WordScreenType.GERMAN_ALL_WORD;
     }
 }
