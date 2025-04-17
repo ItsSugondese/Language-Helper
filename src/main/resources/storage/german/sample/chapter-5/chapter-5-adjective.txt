@@ -1,0 +1,9 @@
+normal | normal(ly)
+lang | long
+offiziell | official
+krank | sick
+ledig | single, unmarried
+verheiratet | married
+cool | cool
+spitze | great
+total | totally

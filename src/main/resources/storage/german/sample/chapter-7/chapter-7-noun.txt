@@ -1,0 +1,92 @@
+der Aufzug, Aufzüge | elevator
+das Bad, Bäder | bath
+das Fitness-Studio, -s | fitness center, gym
+das Haus, Häuser | house
+das Studio, -s | studio
+der Trainer, - | trainer
+die Wohnung, -en | apartment
+das Zimmer, - | room
+das Amt, Ämter | office, department
+das Sportstudio, -s | gym
+das Wohnhaus, -häuser | apartment complex
+die Situation, -en | situation
+das Paar, -e | couple, pair
+die Agentur, -en | agency
+der Arbeitsbeginn | beginning of the workday
+der Brief, -e | letter
+der Empfang | reception
+die Kaffeemaschine, -n | coffee machine
+die Leiterin, -nen | (female) boss, leader
+die Marketing-Abteilung, -en | marketing department
+das Meeting, -s | meeting
+der Mitarbeiter, - | co-worker, colleague
+die Personalabteilung, -en | HR department
+das Postzimmer, - | mailroom
+die Präsentation, -en | presentation
+der Stock, Stockwerke | floor (in a building)
+das Heimatland, -länder | homeland
+der Abteilungsleiter | head of department
+der Kopierraum | copy room
+die Küche | kitchen
+die Sekretärin | secretary (f)
+das Treffen | meeting
+die Anleitung | instruction
+die Bedienungsanleitung | user's manual
+die Nummer | number
+die Taste | key
+die Telefonanlage | phone system
+der Ton | sound, tone
+die Anweisung | instruction, direction
+die Filtertüte | filter bag
+die Kanne | pot, jug (coffee pot)
+die Regel | rule
+der Basketball | basketball (object)
+die Fremdsprache | foreign language
+das Mitglied | member
+der Museumsbesuch | museum visit
+die Pizzeria | pizzeria
+das Sommerfest | summer festival
+das Sportangebot | sports activities
+der Sprachclub | language club
+der Stadtpark | city park
+der Tandempartner | tandem partner
+das Thema | theme
+die Vermittlung | arrangement, mediation
+das Angebot | offer
+der Club | club
+der Absender | sender
+die Anrede | form of address
+der Empfänger | receiver
+die Grußformel | form of greeting
+die Unterschrift | signature
+der Anfang | beginning
+die Begrüßung | greeting
+das Ende | end
+der Erfolg | success
+der Raum | room, space
+das Tandem | tandem
+der Wunsch | wish
+die Literatur | literature
+der Podcast | podcast
+das Netzwerk | network
+die Facebook-Webseite | Facebook page
+das Frühjahr | spring
+der Kurztext | short text, blurb
+die Million | million
+der Nachrichten-Ticker | news ticker
+der Nutzer | user
+die Pinnwand | pinboard
+das Premium-Mitglied | premium member
+der Schüler | student (primary or secondary school)
+der Service | service
+die Stelle | position
+die Universität | university
+die Version | version
+der Unterschied | difference
+das Zeichen | character (symbol)
+das Geräusch | noise, sound
+die Kleidung | clothing
+der Mechaniker | mechanic
+die Toilette | toilet
+die Aussage | statement
+die Werkstatt | workshop, garage

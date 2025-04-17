@@ -1,0 +1,3 @@
+bar | cash (Kann ich bar bezahlen?)
+Herzliche Grüße | warm greetings
+nicht mehr | no longer, not anymore

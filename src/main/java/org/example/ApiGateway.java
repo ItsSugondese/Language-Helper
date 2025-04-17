@@ -14,6 +14,13 @@ public class ApiGateway {
                 .body("{\"text\": \"" + text + "\", \"model_id\": \"eleven_multilingual_v2\"}")
                 .asBytes();
 
-        return response.getBody();
+        // Check for a successful response
+        if (response.getStatus() == 200) {
+            return response.getBody();
+        } else {
+            // It's likely an error message (text)
+            return  null;
+        }
+
     }
 }

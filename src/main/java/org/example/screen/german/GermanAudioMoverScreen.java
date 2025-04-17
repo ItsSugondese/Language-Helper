@@ -14,6 +14,4 @@ public class GermanAudioMoverScreen extends MaterialParent {
     protected ActionPerformer backButtonPathSetter(String path) {
         return super.backButtonPathSetter(ScreenConstants.GERMAN_HOME_PAGE);
     }
-
-
 }

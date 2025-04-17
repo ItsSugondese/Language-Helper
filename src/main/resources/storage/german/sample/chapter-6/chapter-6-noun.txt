@@ -1,0 +1,81 @@
+die Freizeit | free time
+das Internet | internet
+das Snowboard | snowboard
+der Schnee | snow
+die Pantomime | pantomime
+die Überraschung | surprise
+das Picknick | picnic
+der Regen | rain
+der Chat | chat
+das Datum | date (calendar)
+der Familienname | family name, last name
+der Ausflug | trip, excursion
+das Geschenk | present, gift
+die Mail | mail
+der Ort | place, area
+der Treffpunkt | meeting point
+der Überraschungstag | surprise day
+das Geld | money
+das Fest | festival
+das Kursfest | class party
+der~das Cartoon | cartoon
+die Apfelsaftschorle | apple soda
+die Bestellung | order
+die Pommes | fries
+das Schnitzel | schnitzel (breaded pork)
+das Eis | ice cream
+die Speisekarte | menu
+die Tomatensuppe | tomato soup
+das Trinkgeld | tip
+die Gabel | fork
+der Löffel | spoon
+das Messer | knife
+die Serviette | napkin
+der Teller | plate
+die Kellnerin | waitress
+die Rechnung | bill, check
+das Wetter | weather
+die Bank, Bänke | bench, bank
+das Beisl, -n | pub (Austria)
+die Beiz, -en | pub, tavern (Switzerland)
+die Besenwirtschaft, -en | seasonal tavern (Switzerland)
+der Biergarten, -gärten | beer garden
+die Buschenschank, -en | seasonal wine tavern (Austria)
+der Flammkuchen, - | flatbread with toppings (like cheese, onions, lardons)
+der Grill, -s | grill
+das Kaffeehaus, -häuser | coffee house
+der Klassiker, - | classic (noun)
+die Nacht, Nächte | night
+die Palme, -n | palm tree
+der Sand | sand
+die Selbstbedienung | self-service
+die Sonne | sun
+der Spielplatz, -plätze | playground
+die Strandbar, -s | beach bar
+die Straußwirtschaft, -en | seasonal wine tavern (Germany)
+der Tisch, -e | table
+der Wein, -e | wine
+das Weingebiet, -e | wine region
+der Zwiebelkuchen, - | onion-bacon pie
+die Kleingruppe, -n | small group
+das Lokal, -e | small restaurant
+das Heimatland, -länder | homeland
+das Freizeitprogramm, -e | recreational program
+die Anmeldung, -en | registration
+der Beginn (Singular) | beginning
+das Double-Feature, -s | double feature (movie)
+der Eintritt (Singular) | entrance
+das Extra-Konzert, -e | special concert
+das Extra-Programm, -e | special program
+der Halbmarathon, -s | half marathon
+die Karte, -n | card, ticket
+der Konzertbeginn (Singular) | concert start
+der Kultfilm, -e | cult film
+die Kultur-Nacht, -Nächte | cultural night
+die Museumsnacht, -nächte | museum night
+der Preis, -e | price, prize
+der Stadtmarathon, -s | city marathon
+das Zentrum, Zentren | center
+die Aktivität, -en | activity
+das Fußballspiel, -e | soccer game
+das Konzert, -e | concert

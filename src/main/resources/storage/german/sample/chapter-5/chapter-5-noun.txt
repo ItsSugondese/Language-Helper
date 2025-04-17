@@ -1,0 +1,73 @@
+die Kantine | cafeteria
+der Morgen | morning
+der Computer | computer
+die Zeitung | newspaper
+der Arbeitstag | workday
+der Nachmittag | afternoon
+die Uhrzeit | time of day
+das Büro | office
+der Termin | appointment
+die Eltern | parents
+der Friseur | hairdresser
+der Geburtstag | birthday
+das Kind | child
+der Mathe-Test | math test
+die Musikstunde | music class
+das Spiel | game
+das Training | practice, training
+die Trompete | trumpet
+die Musikschule | music school
+die Mutter | mother
+der Sohn | son
+die Tochter | daughter
+der Vater | father
+der Computerfreak | techie
+das Baby | baby
+der Bruder | brother
+die Ehefrau | wife
+der Ehemann | husband
+der Ehepartner | spouse
+die Geschwister | siblings
+die Großeltern | grandparents
+die Großmutter | grandmother
+der Großvater | grandfather
+der Junge | boy
+das Mädchen | girl
+die Oma | grandma
+der Opa | grandpa
+der~die Verwandte | relative
+der Ball | ball
+das Gästebuch | guestbook
+die Homepage | homepage
+der Hund | dog
+der Kontakt | contact
+Kroatien | Croatia
+das Motorrad | motorcycle
+das Saxophon | saxophone
+der Sport | sport
+das Walking | powerwalking
+die Verabredung | appointment, date
+der Berg | mountain
+der Betreff | subject
+der Gruß | greeting
+Liebe Grüße | friendly greetings
+nächste, nächstes | next
+der Sonntagnachmittag | Sunday afternoon
+der Stress | stress
+die Party | party
+die Idee | idea
+die Radtour | bike trip
+der Sprachkurs | language class
+das Tennis | tennis
+die Pünktlichkeit | punctuality
+die Besprechung | meeting
+die Kneipe | bar, pub
+die Minute | minute
+das Problem | problem
+die Verspätung | delay
+das Mal | time
+Viele Grüße | many greetings
+der Dr.~Doktor | doctor
+die Praxis | doctor's office
+die Kundin | customer (female)
+die Sprachschule | language school

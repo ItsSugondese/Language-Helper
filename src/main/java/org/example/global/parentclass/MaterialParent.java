@@ -159,7 +159,7 @@ public class MaterialParent extends GlobalParent {
 
             }
         });
-        wordBackCanvas.setBounds(valueTextField.getX() - buttonWidth/3 -  10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
+        wordBackCanvas.setBounds(valueTextField.getX() - buttonWidth / 3 - 10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
 
         add(wordBackCanvas);
     }
@@ -410,7 +410,8 @@ public class MaterialParent extends GlobalParent {
 
         if (!VariableHelper.isNotEmptyByteArray(audioData)) {
             audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
-            FileUtils.saveBytesAsFile(audioData, langScreenDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
+            if (audioData != null)
+                FileUtils.saveBytesAsFile(audioData, langScreenDetails.getAudioPath() + File.separator + wordSearch.toLowerCase() + ".mp3");
         }
         return audioData;
     }

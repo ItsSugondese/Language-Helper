@@ -72,16 +72,14 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
             audioLoaderButton.setEnabled(false);
 
             List<String> allValues = GenericRepo.getAllFromFileAsList(getSelectedDropDownPath());
-            allValues.forEach(
-                    e -> {
-                        try {
-                            saveAudio(LanguageNameEnums.GERMAN, getWordFromCombineWord(e, getWordScreenType()));
-                        } catch (Exception ex) {
-                            audioLoaderButton.setEnabled(true);
-                            throw new RuntimeException(ex);
-                        }
-                    }
-            );
+            allValues.forEach(e -> {
+                try {
+                    saveAudio(LanguageNameEnums.GERMAN, getWordFromCombineWord(e, getWordScreenType()));
+                } catch (Exception ex) {
+                    audioLoaderButton.setEnabled(true);
+                    throw new RuntimeException(ex);
+                }
+            });
 
 
             CustomPopUp.showPopUpMessage(frame, "Audio Loaded Successfully");
@@ -113,7 +111,8 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
 
         if (!VariableHelper.isNotEmptyByteArray(audioData)) {
             audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
-            FileUtils.saveBytesAsFile(audioData, audioPath + File.separator + wordSearch.toLowerCase() + ".mp3");
+            if (audioData != null)
+                FileUtils.saveBytesAsFile(audioData, audioPath + File.separator + wordSearch.toLowerCase() + ".mp3");
         }
         return audioData;
     }
