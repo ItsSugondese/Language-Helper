@@ -97,7 +97,7 @@ public class RandomGeneratorScreen extends MaterialParent {
 
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
-        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
+        return super.backButtonPathSetter(ScreenConstants.GERMAN_HOME_PAGE);
     }
 
     @Override

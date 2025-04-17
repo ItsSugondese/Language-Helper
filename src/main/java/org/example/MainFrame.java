@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.screen.german.GermanAllWordScreen;
+import org.example.screen.german.GermanAudioMoverScreen;
 import org.example.screen.german.RandomGeneratorScreen;
 import org.example.screen.homepage.GermanHomepageScreen;
 import org.example.screen.homepage.HomePageScreen;
@@ -24,6 +25,7 @@ public class MainFrame extends JFrame {
 
     private GermanAllWordScreen germanAllWordScreen;
     private RandomGeneratorScreen randomGeneratorScreen;
+    private GermanAudioMoverScreen germanAudioMoverScreen;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -51,12 +53,16 @@ public class MainFrame extends JFrame {
 
         // German panels
         germanAllWordScreen = new GermanAllWordScreen(this, width, height);
-        germanAllWordScreen.setName(GermanScreenConstants.GERMAN_MISC_PAGE); // Set name
-        mainPanel.add(germanAllWordScreen, GermanScreenConstants.GERMAN_MISC_PAGE);
+        germanAllWordScreen.setName(GermanScreenConstants.GERMAN_ALL_WORD_PAGE); // Set name
+        mainPanel.add(germanAllWordScreen, GermanScreenConstants.GERMAN_ALL_WORD_PAGE);
 
         randomGeneratorScreen = new RandomGeneratorScreen(this, width, height);
         randomGeneratorScreen.setName(GermanScreenConstants.RANDOM_GENERATOR_PAGE); // Set name
         mainPanel.add(randomGeneratorScreen, GermanScreenConstants.RANDOM_GENERATOR_PAGE);
+
+        germanAudioMoverScreen = new GermanAudioMoverScreen(this, width, height);
+        germanAudioMoverScreen.setName(GermanScreenConstants.AUDIO_MOVER_PAGE); // Set name
+        mainPanel.add(germanAudioMoverScreen, GermanScreenConstants.AUDIO_MOVER_PAGE);
 
         // Call this method for general frame setup
         frameFeatures();

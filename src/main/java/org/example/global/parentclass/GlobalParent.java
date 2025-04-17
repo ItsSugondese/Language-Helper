@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
 import org.example.constants.filepath.FilePathConstants;
+import org.example.constants.screen.ScreenConstants;
 import org.example.constants.variables.VariableConstants;
 import org.example.enums.LanguageNameEnums;
 import org.example.enums.WordScreenType;
@@ -89,7 +90,7 @@ public class GlobalParent extends JPanel {
 
     // screen to redirect when back button is clicked (compulsory)
     protected ActionPerformer backButtonPathSetter(String path) {
-        return null;
+        return new ActionPerformer(frame, path);
     }
 
     // for deciding if backButton should be in the screen or not

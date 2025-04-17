@@ -159,7 +159,7 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
 
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
-        return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
+        return super.backButtonPathSetter(ScreenConstants.GERMAN_HOME_PAGE);
     }
 
 
