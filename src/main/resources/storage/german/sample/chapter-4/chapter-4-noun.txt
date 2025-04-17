@@ -1,0 +1,58 @@
+die Limonade | lemonade
+der Becher | cup
+die Flasche | bottle
+das Kilogramm | kilogram
+der Liter | liter
+die Packung | package
+die Mahlzeit | meal
+das Wohl | well-being ~ health
+die Altstadt | old city
+der Bäcker | baker
+der Champignon | mushroom
+der Chef | chef
+das Dessert | dessert
+das Fischgericht | fish dish
+der Gast | guest
+das Gericht | dish ~ meal
+die Hotelfachfrau | hotel manager (female)
+der Kellner | waiter
+der Koch | cook
+der Landwirt | farmer
+das Team | team
+die Zwiebel | onion
+die Mindmap | mind map
+die Karteikarte | index card
+die Grillparty | cookout
+die Einladung | invitation
+die SMS | text message
+der Einkaufszettel | grocery list
+der Essig | vinegar
+das Getränk | beverage ~ drink
+die Karotte | carrot
+der Moment | moment
+das Öl | oil
+die Olive | olive
+der Cent | cent
+der Einkaufswagen | shopping cart
+der Emmentaler | Emmentaler cheese
+das Gramm | gram
+der Kassenzettel | receipt
+die Tüte | bag
+der Apfel | apple
+die Orange | orange
+die Kiwi | kiwi
+der Abend | evening
+die Birne | pear
+der Döner | Turkish pita sandwich
+das Essen | food, meal
+die Familie | family
+der Mittag | noon
+die Nudel | noodle
+das Obst | fruit
+die Pizza | pizza
+der Reis | rice
+das Stück | piece
+das Sushi | sushi
+der Vormittag | morning (before noon)
+die Zeit | time
+das Poster | poster

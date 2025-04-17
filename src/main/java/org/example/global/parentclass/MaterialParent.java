@@ -10,7 +10,6 @@ import org.example.enums.LanguageNameEnums;
 import org.example.enums.TranslateEnums;
 import org.example.enums.WordScreenType;
 import org.example.utils.VariableHelper;
-import org.example.utils.files.FilePathDecider;
 import org.example.utils.files.FileUtils;
 import org.example.utils.misc.AudioUtils;
 import org.example.utils.uihelper.CustomPopUp;
@@ -21,6 +20,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +37,7 @@ public class MaterialParent extends GlobalParent {
     protected JLabel totalWordLabel;
     protected String totalWordLabelTemplate;
     protected int score = 0;
+    protected Integer previousIndex;
     protected int buttonMargin;
     protected int labelWidth;
 
@@ -57,6 +58,9 @@ public class MaterialParent extends GlobalParent {
     protected int target = 0;
 
     protected List<String> genericValuesList;
+
+    protected JSVGCanvas wordBackCanvas;
+
     protected JSVGCanvas valueAudioCanvas;
     protected JSVGCanvas meaningAudioCanvas;
 
@@ -85,6 +89,7 @@ public class MaterialParent extends GlobalParent {
         totalWordLabelInit();
         setTargetButtonInit();
         valueTextFieldInit();
+        wordBackCanvasInit();
         valueAudioInit();
         meaningLabelInit();
         meaningAudioInit();
@@ -135,6 +140,28 @@ public class MaterialParent extends GlobalParent {
         valueTextField.setBounds(width / 2 - buttonWidth * 2 - buttonMargin / 2, height / 2 - 15, buttonWidth * 4 + buttonMargin, buttonHeight * 2);
 
         add(valueTextField);
+    }
+
+    protected void wordBackCanvasInit() throws URISyntaxException {
+        wordBackCanvas = new JSVGCanvas();
+        wordBackCanvas.setURI(getSvgUri("back").toString());
+
+        setWordBackCanvasVisibility();
+        wordBackCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
+        wordBackCanvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                randomNum = previousIndex;
+                setGenericValueOnField();
+                setFormattedScoreLabel(score <= 0 ? 0 : --score);
+                previousIndex = null;
+                setWordBackCanvasVisibility();
+
+            }
+        });
+        wordBackCanvas.setBounds(valueTextField.getX() - buttonWidth/3 -  10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
+
+        add(wordBackCanvas);
     }
 
     protected void valueAudioInit() throws Exception {
@@ -277,6 +304,7 @@ public class MaterialParent extends GlobalParent {
     // action to perform when clicking is triggered in correct/incorrect button
     protected void whenClickCorrectIncorrectButton(int scoreNumber) {
         if (!genericValuesList.isEmpty()) {
+            previousIndex = randomNum;
             onShouldRandomizeChanged(false);
             setGenericValueOnField();
             setFormattedScoreLabel(scoreNumber);
@@ -284,7 +312,10 @@ public class MaterialParent extends GlobalParent {
             valueTextField.setText("");
             meaningLabel.setText("");
             setAudioCanvasVisibility();
+            previousIndex = null;
         }
+
+        setWordBackCanvasVisibility();
     }
 
     // for setting value from genericList to text field an meaning field
@@ -309,6 +340,10 @@ public class MaterialParent extends GlobalParent {
         meaningAudioCanvas.setVisible(
                 meaningLabel.getText() != null && !meaningLabel.getText().isBlank()
         );
+    }
+
+    protected void setWordBackCanvasVisibility() {
+        wordBackCanvas.setVisible(previousIndex != null);
     }
 
     // to set score in score label
@@ -367,7 +402,7 @@ public class MaterialParent extends GlobalParent {
 
         byte[] audioData = null;
 
-        for (String filePath : FilePathDecider.getAudioFolderByScreen(langScreenDetails)) {
+        for (String filePath : getAudioFolderByScreen(langScreenDetails)) {
             audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
             if (VariableHelper.isNotEmptyByteArray(audioData))
                 break;

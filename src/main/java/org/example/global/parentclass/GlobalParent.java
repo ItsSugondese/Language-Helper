@@ -6,6 +6,7 @@ import org.example.MainFrame;
 import org.example.constants.DelimiterConstants;
 import org.example.constants.filepath.FilePathConstants;
 import org.example.constants.variables.VariableConstants;
+import org.example.enums.LanguageNameEnums;
 import org.example.enums.WordScreenType;
 import org.example.utils.ActionPerformer;
 
@@ -14,6 +15,8 @@ import java.awt.*;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -119,6 +122,31 @@ public class GlobalParent extends JPanel {
             return splitWord[1].trim();
         }
         return null;
+    }
+
+
+    // for deciding audio path
+    protected List<String> getAudioFolderByScreen(WordScreenType wordScreenType) {
+        if(wordScreenType.getLanguageNameEnum() == LanguageNameEnums.ENGLISH) {
+            return Collections.singletonList(wordScreenType.getAudioPath());
+        } else if(wordScreenType.getLanguageNameEnum() == LanguageNameEnums.GERMAN) {
+            if(wordScreenType != WordScreenType.GERMAN_RANDOM){
+                return Collections.singletonList(wordScreenType.getAudioPath());
+            }
+
+            File[] files = new File(WordScreenType.GERMAN_ALL_WORD.getAudioPath()).listFiles();
+
+            List<String> folderName = new ArrayList<>();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        folderName.add(file.getPath());
+                    }
+                }
+            }
+            return folderName;
+        }
+        return Collections.emptyList();
     }
 
 

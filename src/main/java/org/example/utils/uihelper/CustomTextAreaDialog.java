@@ -35,12 +35,6 @@ public class CustomTextAreaDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        JButton filterButton = new JButton("Filter");
-        filterButton.addActionListener(e -> {
-            Map<String, String> mapValues = StringUtils.mapOfStringFromString(textArea.getText(), DelimiterConstants.regexPipSeperator, DelimiterConstants.lineBreak);
-            textArea.setText(StringUtils.stringFromMapOfString(mapValues, DelimiterConstants.lineBreak, DelimiterConstants.pipeSeperator));
-
-        });
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(e -> {
@@ -48,6 +42,12 @@ public class CustomTextAreaDialog extends JDialog {
             setVisible(false);  // Close the dialog
         });
 
+        JButton filterButton = new JButton("Filter");
+        filterButton.addActionListener(e -> {
+            Map<String, String> mapValues = StringUtils.mapOfStringFromString(textArea.getText(), DelimiterConstants.regexPipSeperator, DelimiterConstants.lineBreak);
+            textArea.setText(StringUtils.stringFromMapOfString(mapValues, DelimiterConstants.lineBreak, DelimiterConstants.pipeSeperator));
+
+        });
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {

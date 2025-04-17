@@ -5,6 +5,11 @@ import java.util.stream.Collectors;
 
 public class StringUtils {
 
+
+    public static String convertStringFromObject(final Object object) {
+        return String.valueOf(object);
+    }
+
     public static String mergeStringFromList(List<String> listOfString, String delimiter) {
         if (!listOfString.isEmpty()) {
             listOfString = listOfString.stream().distinct().collect(Collectors.toList());

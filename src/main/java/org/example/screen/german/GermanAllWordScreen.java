@@ -17,7 +17,6 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -148,13 +147,21 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
         audioLoaderButton.setEnabled(!genericValuesList.isEmpty());
         setFormattedTotalWordLabel();
         whenClickCorrectIncorrectButton(0);
+        previousIndex = null;
+        setWordBackCanvasVisibility();
     }
 
+
+    @Override
+    protected List<String> getAudioFolderByScreen(WordScreenType wordScreenType) {
+        return super.getAudioFolderByScreen(wordScreenType);
+    }
 
     @Override
     protected ActionPerformer backButtonPathSetter(String path) {
         return new ActionPerformer(frame, ScreenConstants.GERMAN_HOME_PAGE);
     }
+
 
     @Override
     protected WordScreenType getWordScreenType() {
