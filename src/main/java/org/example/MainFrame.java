@@ -71,8 +71,8 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         // Initially show the start page
-        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
-//        cardLayout.show(mainPanel, GermanScreenConstants.GERMAN_MISC_PAGE);
+//        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
+        cardLayout.show(mainPanel, GermanScreenConstants.AUDIO_MOVER_PAGE);
 
         // Set frame visibility to true
         setVisible(true);

@@ -1,6 +1,8 @@
 package org.example.repository.german.generic;
 
 import org.example.constants.filepath.german.noun.NounGermanFilePathConstants;
+import org.example.utils.files.FileUtils;
+import org.example.utils.files.FolderUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

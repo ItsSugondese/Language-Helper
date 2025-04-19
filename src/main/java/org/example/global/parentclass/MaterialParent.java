@@ -28,18 +28,15 @@ import java.util.Random;
 
 @Getter
 @Setter
-public class MaterialParent extends GlobalParent {
+public class MaterialParent extends TotalWordsParent {
 
 
     protected JLabel scoreLabel;
     protected String scoreLabelTemplate;
 
-    protected JLabel totalWordLabel;
-    protected String totalWordLabelTemplate;
     protected int score = 0;
     protected Integer previousIndex;
     protected int buttonMargin;
-    protected int labelWidth;
 
     protected JCheckBox shouldRandomizeCheckBox;
 
@@ -57,7 +54,6 @@ public class MaterialParent extends GlobalParent {
     protected JButton setTargetButton;
     protected int target = 0;
 
-    protected List<String> genericValuesList;
 
     protected JSVGCanvas wordBackCanvas;
 
@@ -71,12 +67,11 @@ public class MaterialParent extends GlobalParent {
 
     @Override
     protected void initilizer() {
-        setLabelWidth(200);
+        super.initilizer();
         random = new Random();
 
         buttonMargin = 10;
         scoreLabelTemplate = "<html><b>Score: %d</b></html>";
-        totalWordLabelTemplate = "<html><b>Total Words: %d</b></html>";
         genericValuesList = new ArrayList<>();
 
     }
@@ -86,7 +81,6 @@ public class MaterialParent extends GlobalParent {
         super.materials();
         translateFromToDropdownInit();
         scoreLabelInit();
-        totalWordLabelInit();
         setTargetButtonInit();
         valueTextFieldInit();
         wordBackCanvasInit();
@@ -265,14 +259,6 @@ public class MaterialParent extends GlobalParent {
         add(incorrectButton);
     }
 
-    protected void totalWordLabelInit() {
-        totalWordLabel = new JLabel();
-        setFormattedTotalWordLabel();
-        totalWordLabel.setBounds(backButton.getX(), backButton.getY() + backButton.getHeight() + 10,
-                labelWidth, buttonHeight);
-        add(totalWordLabel);
-    }
-
     protected void setTargetButtonInit() {
         setTargetButton = new JButton(String.valueOf(target));
         setTargetButton.setBounds(scoreLabel.getX() + scoreLabel.getWidth() + 20, scoreLabel.getY(),
@@ -352,11 +338,6 @@ public class MaterialParent extends GlobalParent {
         scoreLabel.setText(String.format(scoreLabelTemplate, scoreNumber));
     }
 
-    // to set totalWordCount in label
-    protected void setFormattedTotalWordLabel() {
-        totalWordLabel.setText(String.format(totalWordLabelTemplate, getTillNumberValue()));
-    }
-
     // when toggle in randomizeCheckbox
     protected void onShouldRandomizeChanged(boolean isToggledRandomize) {
         if (!genericValuesList.isEmpty()) {
@@ -416,10 +397,7 @@ public class MaterialParent extends GlobalParent {
         return audioData;
     }
 
-    @Override
-    protected int getTillNumberValue() {
-        return genericValuesList.size();
-    }
+
 
 
 }

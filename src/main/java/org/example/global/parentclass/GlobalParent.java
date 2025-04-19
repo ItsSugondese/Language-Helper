@@ -32,6 +32,9 @@ public class GlobalParent extends JPanel {
     //variable for sizing buttons
     protected int buttonWidth, buttonHeight;
 
+    protected int labelWidth;
+
+
     //instance of MainFrame class
     protected MainFrame frame;
 
@@ -47,6 +50,8 @@ public class GlobalParent extends JPanel {
     public GlobalParent(MainFrame frame, int width, int height) throws Exception {
         setButtonWidth(120);
         setButtonHeight(30);
+
+        setLabelWidth(200);
 
         this.frame = frame;
         this.width = width;

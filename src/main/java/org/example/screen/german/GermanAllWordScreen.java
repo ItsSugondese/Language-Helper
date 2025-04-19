@@ -4,6 +4,7 @@ import org.example.ApiGateway;
 import org.example.MainFrame;
 import org.example.constants.properties.PropertiesGetterConstants;
 import org.example.constants.screen.ScreenConstants;
+import org.example.enums.GetType;
 import org.example.enums.LanguageNameEnums;
 import org.example.enums.WordScreenType;
 import org.example.global.parentclass.MaterialParent;
@@ -12,6 +13,7 @@ import org.example.repository.german.generic.GenericRepo;
 import org.example.utils.ActionPerformer;
 import org.example.utils.VariableHelper;
 import org.example.utils.files.FileUtils;
+import org.example.utils.files.FolderUtils;
 import org.example.utils.uihelper.CustomPopUp;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -97,7 +99,7 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
         if (languageNameEnums != LanguageNameEnums.ENGLISH) {
             langScreenDetails = getWordScreenType();
             audioPath = langScreenDetails.getAudioPath() + File.separator + String.valueOf(allItemsFromPathDropdown.getSelectedItem()).toLowerCase();
-            FileUtils.createDirectoryIfNotExists(audioPath);
+            FolderUtils.createDirectoryIfNotExists(audioPath);
         } else {
             langScreenDetails = WordScreenType.valueOf(languageNameEnums.name());
             audioPath = langScreenDetails.getAudioPath();
@@ -119,7 +121,7 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
 
 
     protected void setValuesInMiscItems() {
-        String[] items = FileUtils.getAllFileNamesFromFolder(WordScreenType.GERMAN_ALL_WORD.getWordPath())
+        String[] items = FileUtils.getAllFileNamesFromFolder(WordScreenType.GERMAN_ALL_WORD.getWordPath(), GetType.NAME)
                 .toArray(new String[0]);
         itemsList = Arrays.asList(items);
         allItemsFromPathDropdown.setModel(new DefaultComboBoxModel<>(items));
