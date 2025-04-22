@@ -9,6 +9,7 @@ import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.screen.german.GermanAllWordScreen;
 import org.example.screen.german.GermanAudioMoverScreen;
 import org.example.screen.german.RandomGeneratorScreen;
+import org.example.screen.german.SearchGermanWordScreen;
 import org.example.screen.homepage.GermanHomepageScreen;
 import org.example.screen.homepage.HomePageScreen;
 
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame {
     private GermanAllWordScreen germanAllWordScreen;
     private RandomGeneratorScreen randomGeneratorScreen;
     private GermanAudioMoverScreen germanAudioMoverScreen;
+    private SearchGermanWordScreen searchGermanWordScreen;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -64,6 +66,10 @@ public class MainFrame extends JFrame {
         germanAudioMoverScreen.setName(GermanScreenConstants.AUDIO_MOVER_PAGE); // Set name
         mainPanel.add(germanAudioMoverScreen, GermanScreenConstants.AUDIO_MOVER_PAGE);
 
+        searchGermanWordScreen = new SearchGermanWordScreen(this, width, height);
+        searchGermanWordScreen.setName(GermanScreenConstants.SEARCH_WORD_PAGE); // Set name
+        mainPanel.add(searchGermanWordScreen, GermanScreenConstants.SEARCH_WORD_PAGE);
+
         // Call this method for general frame setup
         frameFeatures();
 
@@ -72,7 +78,7 @@ public class MainFrame extends JFrame {
 
         // Initially show the start page
 //        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
-        cardLayout.show(mainPanel, GermanScreenConstants.AUDIO_MOVER_PAGE);
+        cardLayout.show(mainPanel, GermanScreenConstants.SEARCH_WORD_PAGE);
 
         // Set frame visibility to true
         setVisible(true);

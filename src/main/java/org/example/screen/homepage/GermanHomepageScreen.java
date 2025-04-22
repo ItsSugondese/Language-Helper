@@ -6,8 +6,6 @@ import org.example.constants.screen.german.GermanScreenConstants;
 import org.example.global.parentclass.MenuGlobalParent;
 import org.example.utils.ActionPerformer;
 
-import java.util.Map;
-
 public class GermanHomepageScreen extends MenuGlobalParent {
 
     public GermanHomepageScreen(MainFrame frame, int width, int height) throws Exception {
@@ -18,11 +16,12 @@ public class GermanHomepageScreen extends MenuGlobalParent {
 
     @Override
     protected void initializeButtonDetails() {
-        screenButtonMap = Map.ofEntries(
-                Map.entry("All Words", GermanScreenConstants.GERMAN_ALL_WORD_PAGE),
-                Map.entry("Random Generator", GermanScreenConstants.RANDOM_GENERATOR_PAGE),
-                Map.entry("Audio Mover", GermanScreenConstants.AUDIO_MOVER_PAGE)
-        );
+        super.initializeButtonDetails();
+        screenButtonMap.put("All Words", GermanScreenConstants.GERMAN_ALL_WORD_PAGE);
+        screenButtonMap.put("Random Generator", GermanScreenConstants.RANDOM_GENERATOR_PAGE);
+        screenButtonMap.put("Search Word", GermanScreenConstants.SEARCH_WORD_PAGE);
+        screenButtonMap.put("Audio Mover", GermanScreenConstants.AUDIO_MOVER_PAGE);
+
     }
 
     @Override

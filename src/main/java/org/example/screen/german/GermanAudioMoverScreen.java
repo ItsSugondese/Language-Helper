@@ -103,7 +103,7 @@ public class GermanAudioMoverScreen extends TotalWordsParent implements Refresha
 
         audioLoaderButton.setEnabled(isClickedMatch);
         audioLoaderButton.addActionListener(actionEvent -> {
-            audioLoaderButton.setEnabled(isClickedMatch);
+            audioLoaderButton.setEnabled(false);
 
             genericValueMap.forEach((key, value) -> {
                 String folderName = FolderUtils.getLastDirectoryName(key);
@@ -122,6 +122,12 @@ public class GermanAudioMoverScreen extends TotalWordsParent implements Refresha
                             FileUtils.writeStringToFile(valueToOverride, file.getPath());
                         }
                     }
+                }
+
+                try {
+                    FolderUtils.createDirectoryIfNotExists(getSelectedDropDownAudioPath());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
                 String destination = getSelectedDropDownAudioPath() + File.separator + value + ".mp3";
                 FileUtils.moveFile(key, destination);
@@ -236,21 +242,10 @@ public class GermanAudioMoverScreen extends TotalWordsParent implements Refresha
 
     @Override
     public void refresh() {
-//        genericValuesList.clear();
-//        setValuesInMiscItems();
-//        whenValuesInInsertValueList();
-    }
-
-
-    protected void whenValuesInInsertValueList() {
-//        correctButton.setEnabled(!genericValuesList.isEmpty());
-//        incorrectButton.setEnabled(!genericValuesList.isEmpty());
-//
-//        audioLoaderButton.setEnabled(!genericValuesList.isEmpty());
-//        setFormattedTotalWordLabel();
-//        whenClickCorrectIncorrectButton(0);
-//        previousIndex = null;
-//        setWordBackCanvasVisibility();
+        setValuesInMiscItems();
+        genericValueMap.clear();
+        textArea.setText("");
+        setFormattedTotalWordLabel();
     }
 
 

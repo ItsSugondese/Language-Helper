@@ -23,16 +23,32 @@ public class StringUtils {
     }
 
     public static Map<String, String> mapOfStringFromString(String string, String stringSeparatorDelimiter, String stringToListDelimiter) {
-        return listFromString(string, stringToListDelimiter)
+        Map<String, String> result = new LinkedHashMap<>();
+
+        listFromString(string, stringToListDelimiter)
                 .stream()
                 .map(line -> line.split(stringSeparatorDelimiter, 2))
                 .filter(parts -> parts.length == 2)
-                .collect(Collectors.toMap(
-                        parts -> parts[0].trim(),
-                        parts -> parts[1].trim(),
-                        (existing, replacement) -> replacement,
-                        LinkedHashMap::new // replace old value with new one
-                ));
+                .forEach(parts -> {
+                    String key = parts[0].trim();
+                    String value = parts[1].trim();
+
+                    // Check for existing key (case-insensitive)
+                    String existingKey = result.keySet().stream()
+                            .filter(k -> k.equalsIgnoreCase(key))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (existingKey != null) {
+                        // Remove the old key if exists
+                        result.remove(existingKey);
+                    }
+
+                    // Add the new key-value pair (preserving original case of new key)
+                    result.put(key, value);
+                });
+
+        return result;
     }
 
     public static String stringFromMapOfString(Map<String, String> map, String keySeparatorDelimiter, String keyValueSeparatorDelimiter) {
@@ -45,24 +61,17 @@ public class StringUtils {
         return string.replaceAll("\\s+", separator).toUpperCase();
     }
 
-    public static String toCamelCase(String str, char separator, boolean toUppercase) {
-        StringBuilder result = new StringBuilder();
-        String[] parts = str.split(Character.toString(separator));
-
-        if(toUppercase){
-            result.append(Character.toUpperCase(parts[0].charAt(0)) + parts[0].substring(1));
-        }else{
-            result.append(parts[0].toLowerCase());
-        }
-
-        // Process the remaining words
-        for (int i = 1; i < parts.length; i++) {
-            if (parts[i].length() > 0) {
-                result.append(Character.toUpperCase(parts[i].charAt(0)));
-                result.append(parts[i].substring(1).toLowerCase());
-            }
-        }
-
-        return result.toString();
+    public static String normalizeUmlauts(String input) {
+        return input
+                .replace("ä", "ae")
+                .replace("ö", "oe")
+                .replace("ü", "ue")
+                .replace("Ä", "Ae")
+                .replace("Ö", "Oe")
+                .replace("Ü", "Ue")
+                .replace("ß", "ss");
     }
+
+
+
 }

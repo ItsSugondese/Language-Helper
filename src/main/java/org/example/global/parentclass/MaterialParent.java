@@ -23,7 +23,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -49,7 +48,6 @@ public class MaterialParent extends TotalWordsParent {
 
     protected JComboBox<String> translateFromToDropdown;
 
-    protected int randomNum;
 
     protected JButton setTargetButton;
     protected int target = 0;
@@ -150,6 +148,7 @@ public class MaterialParent extends TotalWordsParent {
                 setFormattedScoreLabel(score <= 0 ? 0 : --score);
                 previousIndex = null;
                 setWordBackCanvasVisibility();
+                setFormattedCurrentIndexLabel();
 
             }
         });
@@ -162,7 +161,6 @@ public class MaterialParent extends TotalWordsParent {
         valueAudioCanvas = new JSVGCanvas();
         valueAudioCanvas.setURI(getSvgUri("volume").toString());
 
-        valueAudioCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
         valueAudioCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -187,6 +185,8 @@ public class MaterialParent extends TotalWordsParent {
         meaningLabel = new JLabel();
         meaningLabel.setBounds(width / 2 - labelWidth / 2, valueTextField.getY() - buttonHeight - 30,
                 labelWidth, buttonHeight);
+        meaningLabel.setFont(meaningLabel.getFont().deriveFont(Font.BOLD, 14f)); // 16f = font size
+
         add(meaningLabel);
     }
 
@@ -195,7 +195,6 @@ public class MaterialParent extends TotalWordsParent {
         meaningAudioCanvas.setURI(getSvgUri("volume").toString());
 
 
-        meaningAudioCanvas.setFont(valueTextField.getFont().deriveFont(Font.BOLD, 16f)); // 16f = font size
         meaningAudioCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -301,17 +300,20 @@ public class MaterialParent extends TotalWordsParent {
             previousIndex = null;
         }
 
+        setFormattedCurrentIndexLabel();
         setWordBackCanvasVisibility();
     }
 
     // for setting value from genericList to text field an meaning field
     protected void setGenericValueOnField() {
-        if (translateFromToDropdown.getSelectedIndex() == 0) {
-            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
-            meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
-        } else if (translateFromToDropdown.getSelectedIndex() == 1) {
-            valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
-            meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
+        if(getTillNumberValue() > 0) {
+            if (translateFromToDropdown.getSelectedIndex() == 0) {
+                valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
+                meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
+            } else if (translateFromToDropdown.getSelectedIndex() == 1) {
+                valueTextField.setText(getWordFromCombineWord(genericValuesList.get(randomNum), WordScreenType.ENGLISH));
+                meaningLabel.setText(getWordFromCombineWord(genericValuesList.get(randomNum), getWordScreenType()));
+            }
         }
 
         setAudioCanvasVisibility();
@@ -347,6 +349,7 @@ public class MaterialParent extends TotalWordsParent {
             if (randomNum > getTillNumberValue() - 1) {
                 randomNum = 0;
             }
+        setFormattedCurrentIndexLabel();
         }
     }
 
@@ -368,12 +371,12 @@ public class MaterialParent extends TotalWordsParent {
 
     // for saving and playing audio of word
     protected void audioSaveAndPlay(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
-        byte[] audioData = saveAudio(languageNameEnums, wordSearch);
+        byte[] audioData = getOrSaveAudio(languageNameEnums, wordSearch);
         AudioUtils.playAudio(audioData);
     }
 
     // for saving audio of word
-    protected byte[] saveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+    protected byte[] getOrSaveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
         WordScreenType langScreenDetails;
         if (languageNameEnums != LanguageNameEnums.ENGLISH) {
             langScreenDetails = getWordScreenType();
@@ -383,12 +386,22 @@ public class MaterialParent extends TotalWordsParent {
 
         byte[] audioData = null;
 
+        audioData = getAudioData(wordSearch, langScreenDetails, audioData);
+
+        audioData = saveAudioData(wordSearch, audioData, langScreenDetails);
+        return audioData;
+    }
+
+    protected byte[] getAudioData(String wordSearch, WordScreenType langScreenDetails, byte[] audioData) throws Exception {
         for (String filePath : getAudioFolderByScreen(langScreenDetails)) {
             audioData = FileUtils.getBytesAsFile(filePath + File.separator + wordSearch.toLowerCase() + ".mp3");
             if (VariableHelper.isNotEmptyByteArray(audioData))
                 break;
         }
+        return audioData;
+    }
 
+    protected byte[] saveAudioData(String wordSearch, byte[] audioData, WordScreenType langScreenDetails) throws Exception {
         if (!VariableHelper.isNotEmptyByteArray(audioData)) {
             audioData = ApiGateway.elevenLabsTextToSpeechAudioBytes(PropertiesGetterConstants.elevenLabsApiKeyGetter(), wordSearch);
             if (audioData != null)
@@ -396,8 +409,6 @@ public class MaterialParent extends TotalWordsParent {
         }
         return audioData;
     }
-
-
 
 
 }

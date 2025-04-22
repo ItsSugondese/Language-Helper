@@ -76,7 +76,7 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
             List<String> allValues = GenericRepo.getAllFromFileAsList(getSelectedDropDownPath());
             allValues.forEach(e -> {
                 try {
-                    saveAudio(LanguageNameEnums.GERMAN, getWordFromCombineWord(e, getWordScreenType()));
+                    getOrSaveAudio(LanguageNameEnums.GERMAN, getWordFromCombineWord(e, getWordScreenType()));
                 } catch (Exception ex) {
                     audioLoaderButton.setEnabled(true);
                     throw new RuntimeException(ex);
@@ -93,7 +93,7 @@ public class GermanAllWordScreen extends MaterialParent implements Refreshable {
     }
 
     @Override
-    protected byte[] saveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
+    protected byte[] getOrSaveAudio(LanguageNameEnums languageNameEnums, String wordSearch) throws Exception {
         WordScreenType langScreenDetails;
         String audioPath;
         if (languageNameEnums != LanguageNameEnums.ENGLISH) {

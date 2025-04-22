@@ -9,6 +9,11 @@ import java.util.List;
 public class TotalWordsParent extends GlobalParent{
     protected JLabel totalWordLabel;
     protected String totalWordLabelTemplate;
+
+    protected int randomNum;
+
+    protected JLabel currentIndexLabel;
+    protected String currentIndexLabelTemplate;
     protected List<String> genericValuesList;
 
     public TotalWordsParent(MainFrame frame, int width, int height) throws Exception {
@@ -19,6 +24,7 @@ public class TotalWordsParent extends GlobalParent{
     protected void initilizer() {
         super.initilizer();
         totalWordLabelTemplate = "<html><b>Total Words: %d</b></html>";
+        currentIndexLabelTemplate = "<html><b>Index: %d</b></html>";
         genericValuesList = new ArrayList<>();
 
     }
@@ -27,6 +33,7 @@ public class TotalWordsParent extends GlobalParent{
     protected void materials() throws Exception {
         super.materials();
         totalWordLabelInit();
+        currentIndexLabelInit();
     }
 
     protected void totalWordLabelInit() {
@@ -37,9 +44,22 @@ public class TotalWordsParent extends GlobalParent{
         add(totalWordLabel);
     }
 
+    protected void currentIndexLabelInit() {
+        currentIndexLabel = new JLabel();
+        setFormattedCurrentIndexLabel();
+        currentIndexLabel.setBounds(totalWordLabel.getX(), totalWordLabel.getY() + totalWordLabel.getHeight() + 10,
+                labelWidth, buttonHeight);
+        add(currentIndexLabel);
+    }
+
     // to set totalWordCount in label
     protected void setFormattedTotalWordLabel() {
         totalWordLabel.setText(String.format(totalWordLabelTemplate, getTillNumberValue()));
+    }
+
+    // to set totalWordCount in label
+    protected void setFormattedCurrentIndexLabel() {
+        currentIndexLabel.setText(String.format(currentIndexLabelTemplate, randomNum + 1));
     }
 
     @Override
