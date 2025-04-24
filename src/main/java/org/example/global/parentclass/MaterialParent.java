@@ -17,6 +17,8 @@ import org.example.utils.uihelper.CustomTextFieldDialog;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -99,6 +101,7 @@ public class MaterialParent extends TotalWordsParent {
         } else {
             setAudioCanvasVisibility();
         }
+
     }
 
     protected void translateFromToDropdownInit() {
@@ -160,6 +163,7 @@ public class MaterialParent extends TotalWordsParent {
     protected void valueAudioInit() throws Exception {
         valueAudioCanvas = new JSVGCanvas();
         valueAudioCanvas.setURI(getSvgUri("volume").toString());
+        valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
 
         valueAudioCanvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -176,7 +180,23 @@ public class MaterialParent extends TotalWordsParent {
                 }
             }
         });
-        valueAudioCanvas.setBounds(valueTextField.getX() + valueTextField.getWidth() + 10, valueTextField.getY(), buttonWidth / 3, buttonHeight);
+
+        KeyStroke upArrow = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
+        valueAudioCanvas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(upArrow, "simulateClick");
+        valueAudioCanvas.getActionMap().put("simulateClick", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String wordSearch = valueTextField.getText().trim();
+
+                    LanguageNameEnums from = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getFrom();
+
+                    audioSaveAndPlay(from, wordSearch);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
         add(valueAudioCanvas);
     }
@@ -193,6 +213,7 @@ public class MaterialParent extends TotalWordsParent {
     protected void meaningAudioInit() throws Exception {
         meaningAudioCanvas = new JSVGCanvas();
         meaningAudioCanvas.setURI(getSvgUri("volume").toString());
+        meaningAudioCanvas.setBounds(meaningLabel.getX() + meaningLabel.getWidth() + 20, meaningLabel.getY(), buttonWidth / 3, buttonHeight);
 
 
         meaningAudioCanvas.addMouseListener(new MouseAdapter() {
@@ -210,7 +231,23 @@ public class MaterialParent extends TotalWordsParent {
 
             }
         });
-        meaningAudioCanvas.setBounds(meaningLabel.getX() + meaningLabel.getWidth() + 20, meaningLabel.getY(), buttonWidth / 3, buttonHeight);
+
+        KeyStroke upArrow = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
+        meaningAudioCanvas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(upArrow, "simulateClick");
+        meaningAudioCanvas.getActionMap().put("simulateClick", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String wordSearch = meaningLabel.getText().trim();
+                    LanguageNameEnums to = TranslateEnums.getTranslateEnumsFromVal(translateFromToDropdown.getSelectedItem().toString()).getTo();
+
+                    audioSaveAndPlay(to, wordSearch);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
 
         add(meaningAudioCanvas);
     }
@@ -242,7 +279,20 @@ public class MaterialParent extends TotalWordsParent {
             }
         });
 
+        keyShortcutSetterForButton(correctButton,KeyEvent.VK_UP);
+
         add(correctButton);
+    }
+
+    private void keyShortcutSetterForButton(JButton button, int keyEvent){
+        KeyStroke upArrow = KeyStroke.getKeyStroke(keyEvent, 0);
+        button.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(upArrow, "pressButton");
+        button.getActionMap().put("pressButton", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.doClick();  // Simulate button click
+            }
+        });
     }
 
     protected void incorrectButtonInit() {
@@ -255,6 +305,7 @@ public class MaterialParent extends TotalWordsParent {
             whenClickCorrectIncorrectButton(score);
         });
 
+        keyShortcutSetterForButton(incorrectButton, KeyEvent.VK_DOWN);
         add(incorrectButton);
     }
 

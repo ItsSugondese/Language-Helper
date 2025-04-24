@@ -58,7 +58,7 @@ public class SearchGermanWordScreen extends MaterialParent implements Refreshabl
         meaningAudioInit();
         searchDropdownInit();
         valueAudioInit();
-        searchButtonInit();
+//        searchButtonInit();
     }
 
     @Override

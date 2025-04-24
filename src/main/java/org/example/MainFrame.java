@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.constants.screen.ScreenConstants;
 import org.example.constants.screen.german.GermanScreenConstants;
-import org.example.screen.german.GermanAllWordScreen;
-import org.example.screen.german.GermanAudioMoverScreen;
-import org.example.screen.german.RandomGeneratorScreen;
-import org.example.screen.german.SearchGermanWordScreen;
+import org.example.screen.german.*;
 import org.example.screen.homepage.GermanHomepageScreen;
 import org.example.screen.homepage.HomePageScreen;
 
@@ -28,6 +25,7 @@ public class MainFrame extends JFrame {
     private RandomGeneratorScreen randomGeneratorScreen;
     private GermanAudioMoverScreen germanAudioMoverScreen;
     private SearchGermanWordScreen searchGermanWordScreen;
+    private GermanQuizScreen germanQuizScreen;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -70,6 +68,10 @@ public class MainFrame extends JFrame {
         searchGermanWordScreen.setName(GermanScreenConstants.SEARCH_WORD_PAGE); // Set name
         mainPanel.add(searchGermanWordScreen, GermanScreenConstants.SEARCH_WORD_PAGE);
 
+        germanQuizScreen = new GermanQuizScreen(this, width, height);
+        germanQuizScreen.setName(GermanScreenConstants.QUIZ_PAGE); // Set name
+        mainPanel.add(germanQuizScreen, GermanScreenConstants.QUIZ_PAGE);
+
         // Call this method for general frame setup
         frameFeatures();
 
@@ -77,8 +79,8 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         // Initially show the start page
-//        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
-        cardLayout.show(mainPanel, GermanScreenConstants.SEARCH_WORD_PAGE);
+        cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
+//        cardLayout.show(mainPanel, GermanScreenConstants.QUIZ_PAGE);
 
         // Set frame visibility to true
         setVisible(true);

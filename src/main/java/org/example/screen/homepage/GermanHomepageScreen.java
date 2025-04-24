@@ -20,6 +20,7 @@ public class GermanHomepageScreen extends MenuGlobalParent {
         screenButtonMap.put("All Words", GermanScreenConstants.GERMAN_ALL_WORD_PAGE);
         screenButtonMap.put("Random Generator", GermanScreenConstants.RANDOM_GENERATOR_PAGE);
         screenButtonMap.put("Search Word", GermanScreenConstants.SEARCH_WORD_PAGE);
+        screenButtonMap.put("Quiz", GermanScreenConstants.QUIZ_PAGE);
         screenButtonMap.put("Audio Mover", GermanScreenConstants.AUDIO_MOVER_PAGE);
 
     }
