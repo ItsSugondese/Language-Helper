@@ -2,13 +2,15 @@ package org.example.utils.uihelper;
 
 import org.example.constants.DelimiterConstants;
 import org.example.utils.misc.StringUtils;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
 public class CustomTextAreaDialog extends JDialog {
-    private JTextArea textArea;
+    private RSyntaxTextArea textArea;
     private boolean confirmed = false;
 
     // The dialog is created only once and reused for every pop-up
@@ -22,13 +24,13 @@ public class CustomTextAreaDialog extends JDialog {
         setLayout(new BorderLayout());
 
         // Create the JTextArea and JScrollPane
-        textArea = new JTextArea(20, 50);
+        textArea = new RSyntaxTextArea(20, 50);
         textArea.setText(initialText);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(true);
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        RTextScrollPane scrollPane = new RTextScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
 
         // Create the buttons panel
@@ -49,6 +51,9 @@ public class CustomTextAreaDialog extends JDialog {
 
         });
 
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> textArea.setText(""));
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
             confirmed = false;
@@ -57,6 +62,7 @@ public class CustomTextAreaDialog extends JDialog {
 
         buttonPanel.add(okButton);
         buttonPanel.add(filterButton);
+        buttonPanel.add(clearButton);
         buttonPanel.add(cancelButton);
 
         // Add the buttons to the dialog
