@@ -17,10 +17,7 @@ import org.example.utils.uihelper.CustomTextFieldDialog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -43,6 +40,7 @@ public class MaterialParent extends TotalWordsParent {
 
     protected JButton correctButton;
     protected JButton incorrectButton;
+    protected JButton removeWordButton;
 
     protected JTextField valueTextField;
     protected JLabel meaningLabel;
@@ -88,6 +86,7 @@ public class MaterialParent extends TotalWordsParent {
         meaningLabelInit();
         meaningAudioInit();
         shouldShowMeaningCheckBoxInit();
+        removeWordButtonInit();
         correctButtonInit();
         incorrectButtonInit();
         shouldRandomizeCheckBoxInit();
@@ -264,9 +263,23 @@ public class MaterialParent extends TotalWordsParent {
     }
 
 
+    protected void removeWordButtonInit() {
+        removeWordButton = new JButton("Remove");
+        removeWordButton.setBounds(width / 2 - buttonWidth/2, valueTextField.getY() + valueTextField.getHeight() + 10,
+                buttonWidth, buttonHeight);
+
+        removeWordButton.addActionListener(e -> {
+            genericValuesList.remove(randomNum);
+            whenValuesInInsertValueList();
+        });
+
+        keyShortcutWithALtSetterForButton(removeWordButton, KeyEvent.VK_R);
+        add(removeWordButton);
+    }
+
     protected void correctButtonInit() {
         correctButton = new JButton("Correct");
-        correctButton.setBounds(width / 2 - buttonWidth - buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
+        correctButton.setBounds(removeWordButton.getX() - buttonWidth  - buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
         correctButton.addActionListener(e -> {
@@ -284,6 +297,22 @@ public class MaterialParent extends TotalWordsParent {
         add(correctButton);
     }
 
+
+
+    protected void incorrectButtonInit() {
+        incorrectButton = new JButton("Incorrect");
+        incorrectButton.setBounds(removeWordButton.getX() + buttonWidth + buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
+                buttonWidth, buttonHeight);
+
+        incorrectButton.addActionListener(e -> {
+            score = 0;
+            whenClickCorrectIncorrectButton(score);
+        });
+
+        keyShortcutSetterForButton(incorrectButton, KeyEvent.VK_DOWN);
+        add(incorrectButton);
+    }
+
     private void keyShortcutSetterForButton(JButton button, int keyEvent){
         KeyStroke upArrow = KeyStroke.getKeyStroke(keyEvent, 0);
         button.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(upArrow, "pressButton");
@@ -295,18 +324,15 @@ public class MaterialParent extends TotalWordsParent {
         });
     }
 
-    protected void incorrectButtonInit() {
-        incorrectButton = new JButton("Incorrect");
-        incorrectButton.setBounds(width / 2 + buttonMargin, valueTextField.getY() + valueTextField.getHeight() + 10,
-                buttonWidth, buttonHeight);
-
-        incorrectButton.addActionListener(e -> {
-            score = 0;
-            whenClickCorrectIncorrectButton(score);
+    private void keyShortcutWithALtSetterForButton(JButton button, int keyEvent){
+        KeyStroke upArrow = KeyStroke.getKeyStroke(keyEvent, InputEvent.ALT_DOWN_MASK);
+        button.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(upArrow, "pressButton");
+        button.getActionMap().put("pressButton", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.doClick();  // Simulate button click
+            }
         });
-
-        keyShortcutSetterForButton(incorrectButton, KeyEvent.VK_DOWN);
-        add(incorrectButton);
     }
 
     protected void setTargetButtonInit() {
@@ -415,6 +441,7 @@ public class MaterialParent extends TotalWordsParent {
     protected void whenValuesInInsertValueList() {
         correctButton.setEnabled(!genericValuesList.isEmpty());
         incorrectButton.setEnabled(!genericValuesList.isEmpty());
+        removeWordButton.setEnabled(!genericValuesList.isEmpty());
 
         setFormattedTotalWordLabel();
         whenClickCorrectIncorrectButton(0);
