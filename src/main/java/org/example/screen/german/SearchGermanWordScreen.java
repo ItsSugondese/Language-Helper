@@ -31,9 +31,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SearchGermanWordScreen extends MaterialParent implements Refreshable {
     protected Map<String, String> genericValueGermanMap;
     protected Map<String, String> genericValueEnglishMap;
-    protected JButton searchButton;
+    protected JButton refreshButton;
     protected EventList<String> glazedList;
     protected JComboBox<String> searchDropdown;
+
 
 
     public SearchGermanWordScreen(MainFrame frame, int width, int height) throws Exception {
@@ -58,7 +59,7 @@ public class SearchGermanWordScreen extends MaterialParent implements Refreshabl
         meaningAudioInit();
         searchDropdownInit();
         valueAudioInit();
-//        searchButtonInit();
+        refreshButtonInit();
     }
 
     @Override
@@ -171,16 +172,18 @@ public class SearchGermanWordScreen extends MaterialParent implements Refreshabl
         add(valueAudioCanvas);
     }
 
-    protected void searchButtonInit() {
-        searchButton = new JButton("Search");
-        searchButton.setBounds(width / 2 - buttonWidth / 2, searchDropdown.getY() + searchDropdown.getHeight() + 10,
+
+
+    protected void refreshButtonInit() {
+        refreshButton = new JButton("Refresh");
+        refreshButton.setBounds(width / 2 - buttonWidth / 2, searchDropdown.getY() + searchDropdown.getHeight() + 10,
                 buttonWidth, buttonHeight);
 
-        searchButton.addActionListener(e -> {
-
+        refreshButton.addActionListener(e -> {
+            refresh();
         });
 
-        add(searchButton);
+        add(refreshButton);
     }
 
 
