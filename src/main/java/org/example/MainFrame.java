@@ -80,7 +80,7 @@ public class MainFrame extends JFrame {
 
         // Initially show the start page
         cardLayout.show(mainPanel, ScreenConstants.GERMAN_HOME_PAGE);
-//        cardLayout.show(mainPanel, GermanScreenConstants.QUIZ_PAGE);
+//        cardLayout.show(mainPanel, GermanScreenConstants.GERMAN_ALL_WORD_PAGE);
 
         // Set frame visibility to true
         setVisible(true);

@@ -239,6 +239,7 @@ public class SearchGermanWordScreen extends MaterialParent implements Refreshabl
     public void refresh() {
         appendValueInCollections();
         this.refreshDropdown(genericValuesList);
+        setGenericValueOnField();
     }
 
     @Override

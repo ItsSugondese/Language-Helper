@@ -202,9 +202,11 @@ public class MaterialParent extends TotalWordsParent {
 
     protected void meaningLabelInit() {
         meaningLabel = new JLabel();
-        meaningLabel.setBounds(width / 2 - labelWidth / 2, valueTextField.getY() - buttonHeight - 30,
-                labelWidth, buttonHeight);
+        meaningLabel.setBounds(valueTextField.getX(), valueTextField.getY() - buttonHeight - 30,
+                (int) (valueTextField.getWidth() * 0.75), buttonHeight);
         meaningLabel.setFont(meaningLabel.getFont().deriveFont(Font.BOLD, 14f)); // 16f = font size
+        meaningLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        meaningLabel.setVerticalAlignment(SwingConstants.CENTER); // Optional
 
         add(meaningLabel);
     }
